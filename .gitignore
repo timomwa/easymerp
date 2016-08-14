@@ -1,0 +1,6 @@
+.buildpath
+.project
+Gemfile.lock
+log/
+tmp/
+
