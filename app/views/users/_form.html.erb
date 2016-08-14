@@ -1,0 +1,15 @@
+<%= form_for @user do |f| %>
+	
+	<%= render 'shared/errors', object: @user %>
+  
+  <p>
+    <%= f.text_field :email,  class: "form-control", placeholder: "Email address", pattern: "[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"  %>
+  </p>
+  <p>
+    <%= f.password_field :password,  class: "form-control", placeholder: "Password", required: true %>
+  </p>
+  <p>
+    <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Password Confirmation", required: true %>
+  </p>
+  <p><%= f.submit "Create Account", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>
+<% end %>

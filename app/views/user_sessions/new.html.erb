@@ -1,0 +1,36 @@
+ <div class="container">
+        <div class="form-signin">
+            <div class="card card-container">
+            
+            	<%= render 'shared/flash' %>
+					      
+				<%= form_for @user_session do |form| %>
+				
+				<%= render 'shared/errors', object: @user_session %>
+				  
+				  
+				<div class="formList">
+				  <span id="reauth-email" class="reauth-email"></span>
+				  <p>
+				    <%= form.text_field :email,  class: "form-control", placeholder: "Email address", pattern: "[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"  %>
+				  </p>
+				  <p>
+				    <%= form.password_field :password,  class: "form-control", placeholder: "Password", required: true %>
+				  </p>
+                
+				  <p>
+				    <%= form.submit "Log In", class: "btn btn-lg btn-primary btn-block btn-signin" %>
+				  </p>
+				  <%= link_to 'Forgot password?', new_password_reset_path, class: 'forgot-password' %>
+				   
+		            <span>Or</span>
+		            <%= link_to new_user_path, class: 'forgot-password' do %>
+		        		Sign Up &raquo;
+		      		<% end %>
+				</div>
+				<% end %>
+				
+				
+			</div>
+		</div>
+</div>

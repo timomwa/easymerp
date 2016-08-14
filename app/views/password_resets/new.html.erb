@@ -1,0 +1,30 @@
+ <div class="container">
+        <div class="form-signin">
+            <div class="card card-container">
+            	<div class="formList">
+				
+					
+				  		<%= form_tag("/password_resets", method: "post") %>
+				  		
+				  		<%= render 'shared/flash' %>
+				  		
+				  		<p>
+				    		 
+				    		<!--
+				    		<%= text_field :email, name: "email",  class: "form-control", placeholder: "Email address", pattern: "[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*"  %> 
+				    		-->
+				    		 <%= text_field_tag(:email, "", class: "form-control", placeholder: "Email address", pattern: "[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*" ) %>
+				    		 
+				  		</p>
+                
+				  		<p>
+				    		<%= submit_tag "Submit", class: "btn btn-lg btn-primary btn-block btn-signin" %>
+				  		</p>
+				  		
+				  	
+				  	
+				  	
+				</div>
+			</div>
+		</div>
+</div>
