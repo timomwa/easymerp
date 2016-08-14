@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   
+ # get 'product/create'
+
   root to: 'pages#index', as: :root
   resources :users, only: [:new, :create, :show]
+  resources :products, only: [:index, :new, :create, :update, :show]
   resources :user_sessions, only: [:create, :destroy]
   resources :password_resets, only: [:new, :create, :edit, :update]
     
@@ -9,7 +12,7 @@ Rails.application.routes.draw do
   get '/sign_in', to: 'user_sessions#new', as: :sign_in
   get '/email_sent', to: 'email_sent#index', as: :email_sent
   get '/activate/:activation_code', to: 'activations#create', as: :activate
-  
+  #get '/new_product', to: 'products#new', as: :new_product
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

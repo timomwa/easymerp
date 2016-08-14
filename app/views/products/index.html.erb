@@ -1,0 +1,27 @@
+<%= render 'shared/flash' %>
+<h1>Products</h1>
+<% permitted_to? :manage, :products do %>
+<%= link_to 'New Product', new_product_url %>
+<% end %>
+<table>
+  <tr>
+    <th>SKU</th>
+    <th>Name</th>
+    <th>Stock Qty</th>
+    <% permitted_to? :manage, :products do %>
+    	<th></th>
+    <% end %>
+  </tr>
+ 
+ 
+  <% @products.each do |product| %>
+    <tr>
+      <td><%= product.sku %></td>
+      <td><%= product.name %></td>
+      <td><%= product.count %></td>
+      <% permitted_to? :manage, :products do %>
+      	<td><%= link_to 'Edit', product, method: :get %></td>
+	  <% end %>
+    </tr>
+  <% end %>
+</table>

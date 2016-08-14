@@ -11,7 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160814115651) do
+ActiveRecord::Schema.define(version: 20160814212255) do
+
+  create_table "products", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.string   "sku",         limit: 255,   default: "SKU01", null: false
+    t.integer  "count",       limit: 4,     default: 0,       null: false
+    t.text     "description", limit: 65535
+  end
+
+  add_index "products", ["name"], name: "index_products_on_name", using: :btree
+  add_index "products", ["sku"], name: "index_products_on_sku", unique: true, using: :btree
+
+  create_table "roles", force: :cascade do |t|
+    t.string   "title",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "roles_users", id: false, force: :cascade do |t|
+    t.integer "user_id", limit: 4
+    t.integer "role_id", limit: 4
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",               limit: 255

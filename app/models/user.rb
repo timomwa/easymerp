@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_and_belongs_to_many :roles
   acts_as_authentic do |c|
     c.crypto_provider = Authlogic::CryptoProviders::Sha512
   end
@@ -35,4 +36,9 @@ class User < ActiveRecord::Base
     save
     ActivationInstructionsMailer.welcome(self).deliver
   end
+
+  def role_symbols
+    (roles || []).map {|r| r.title.to_sym}
+  end
+
 end

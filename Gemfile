@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'declarative_authorization', github: "stffn/declarative_authorization"
 gem 'bootstrap-sass'
 gem 'authlogic', '3.4.6'
 gem 'autoprefixer-rails'

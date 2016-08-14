@@ -16,15 +16,16 @@
     </div>
     
     <div id="navbar">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav" role="menu" aria-labelledby="dropdownMenu">
         <li><%= link_to 'Home', root_path %></li>
         <% if current_user %>
-        	<li><%= link_to 'Products', root_path %></li>
+        	<li><%= link_to 'Administration' %></li>
+        	<li><%= link_to 'Products', products_url %></li>
         	<li><%= link_to 'Sales', root_path %></li>
         	<li><%= link_to 'Imports', root_path %></li>
         <% end %>
       </ul>
-      
+
       
       <ul class="nav navbar-nav pull-right">
         <% if current_user %>
