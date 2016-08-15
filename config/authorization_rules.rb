@@ -1,19 +1,22 @@
 authorization do
   role :guest do
-    # add permissions for guests here, e.g.
-    # has_permission_on :conferences, :to => :read
+    has_permission_on :user_sessions, :to => [:create , :destroy]
   end
 
   # permissions on other roles, such as
   role :admin do
+    includes :guest
     has_permission_on :products, :to => :manage
     has_permission_on :users, :to => :manage
+    has_permission_on :admini_url, :to => :manage
+    has_permission_on :listusers_url, :to => :manage
   end
 
   role :user do
     has_permission_on :products, :to => :read
   end
 
+ 
   # role :user do
   #   has_permission_on :conferences, :to => [:read, :create]
   #   has_permission_on :conferences, :to => [:update, :delete] do

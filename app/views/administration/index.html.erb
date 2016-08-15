@@ -1,2 +1,4 @@
-<%= render 'administration/adminnav' %>
-<%= render 'administration/adminbody' %>
+<% permitted_to? :manage, :users do %>
+	<%= render 'administration/adminnav' %>
+	<%= render 'administration/adminbody' %>
+<% end %>
