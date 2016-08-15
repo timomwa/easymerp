@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   
+  
+  #get 'administration/index'
+
  # get 'product/create'
 
   root to: 'pages#index', as: :root
@@ -12,6 +15,12 @@ Rails.application.routes.draw do
   get '/sign_in', to: 'user_sessions#new', as: :sign_in
   get '/email_sent', to: 'email_sent#index', as: :email_sent
   get '/activate/:activation_code', to: 'activations#create', as: :activate
+  get '/admin', to: 'administration#index', as: :admin
+  get '/admin/listusers', to: 'administration#listusers', as: :listusers
+  post '/admin/toggleactive', to: 'administration#toggleactive', as: :toggleactive
+  post '/admin/toggleapprove', to: 'administration#toggleapprove', as: :toggleapprove
+  post '/admin/toggleconfirm', to: 'administration#toggleconfirm', as: :toggleconfirm
+  #get '/admin/deactivateuser', to: 'administration#deactivateuser', as: :deactivateuser
   #get '/new_product', to: 'products#new', as: :new_product
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

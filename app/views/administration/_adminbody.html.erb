@@ -1,0 +1,11 @@
+<div class="col-xs-7 col-sm-6 col-lg-8" >
+<% if params[:custparam].to_s == "userpanel".to_s  %>
+	Users
+<% elsif params[:custparam].to_s == "rolepanel".to_s  %>
+	Roles
+<% else %>
+	This is the admin panel. Manage users and roles.
+<% end %>
+
+
+</div>

@@ -1,0 +1,41 @@
+<%= render 'shared/flash' %>
+<% permitted_to? :manage, :users do %>
+	<%= link_to 'New user', new_user_path %>
+<% end %>
+<table class="table table-hover">
+  <tr>
+    <th>Email</th>
+    <th>Login Count</th>
+    <th>Created At</th>
+    <th>Last Login IP</th>
+    <th>Failed Login count</th>
+    <th>Approved</th>
+    <th>Activated</th>
+    <th></th>
+  </tr>
+ 
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.email %></td>
+      <td><%= user.login_count %></td>
+      <td><%= user.created_at.strftime("%Y %B %d at %I:%M %p") %></td>
+      <td><%= user.last_login_ip %></td>
+      <td><%= user.failed_login_count %></td>
+      <td><%= user.approved %></td>
+      <td><%= user.active %></td>
+      <% permitted_to? :manage, :users do %>
+      	<td>
+      	<%= link_to (user.approved? ? "Disapprove" : "Approve"), toggleapprove_url(:id => user.id), method: 'post',
+              data: { confirm: 'Are you sure you want to '+(user.active? ? 'disapprove' : 'approve')+' the account \''+user.email+'\'?' }  %>
+      	|<%= link_to (user.confirmed? ? "Unconfirm" : "Confirm"), toggleconfirm_url(:id => user.id), method: 'post',
+              data: { confirm: 'Are you sure you want to '+(user.confirmed? ? 'unconfirm' : 'confirm')+' the account \''+user.email+'\'?' }   %>
+      	|<%= link_to (user.active? ? "De-Activate" : "Activate"), toggleactive_url(:id => user.id), method: 'post',
+              data: { confirm: 'Are you sure you want to '+(user.active? ? 'deactivate' : 'activate')+' the account \''+user.email+'\'?' } %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+<p>
+<%= will_paginate(@users, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+<%= page_entries_info @users %>
+</p>

@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+gem 'will_paginate'
 gem 'declarative_authorization', github: "stffn/declarative_authorization"
 gem 'bootstrap-sass'
 gem 'authlogic', '3.4.6'

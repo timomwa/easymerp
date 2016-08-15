@@ -7,6 +7,7 @@ authorization do
   # permissions on other roles, such as
   role :admin do
     has_permission_on :products, :to => :manage
+    has_permission_on :users, :to => :manage
   end
 
   role :user do
