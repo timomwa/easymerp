@@ -1,22 +1,71 @@
- <%= render 'shared/flash' %>
- <% if current_user %>
-          <p>
-          Application content
-          </p>
-        <% else %>
-          <%= render 'shared/flash' %>	
-          <div class="jumbotron">
-            <div class="container">	
-		  		<h1>Welcome!</h1>
-		    	<p>Sign up to get started.</p>
-		    	<p>
-		      		<%= link_to new_user_path, class: 'btn btn-primary btn-lg' do %>
-		        		Sign Up &raquo;
-		      		<% end %>
-		    	</p>
-		  	</div>
-		  	
-		</div>
+<%= render 'shared/flash' %>
+<% if current_user %>
+	<p>
+		Application content
+	</p>
+<% else %>
+	<%= render 'shared/flash' %>	
+	<div class="jumbotron">
+		<div class="container">	
+			<div class="row">
+				<h1>Welcome Visitor</h1>
+				<p>This is the official Honda owners' club Kenya portal.</p>
+			</div>	
+		    
+			<div class="row">	
+				<h2>What does Honda Owners' Club Kenya do?</h2>
+				<ul>
+					<li>Help each other out take care of our honda cars</li>
+					<li>Participate in charity events - help the less fortunate in society</li>
+					<li>Participate in car events (racing,fun drives)</li>
+					<li>Share information on affordable quality Honda spare parts - avoid being knocked off by rogue sales shops and mechanics</li>
+					<li>Hold discussions pertaining Hondas and related topics</li>
+					<li>We have in-house trusted mechanics who help service Honda vehicles</li>
+					<li>Have fun chatting via our whatsapp group</li>					
+				</ul>
+			</div>	    
+		    
+			<div class="row">	
+				<h2>How do I join Honda Owners' Club Kenya ?</h2>
+				<p>
+					<ol>
+						<li>You must love Hondas</li>
+						<li>Optionally own a Honda vehicle</li>
+						<li><%= link_to 'Register', new_user_path %> yourself as a member.</li> 
+						<li>Join <%= link_to 'Telegram', 'https://telegram.org/', :target => "_blank" %> and you'll be added to the HOC Kenya group</li>
+						<li>Preferably become a premium member by paying KES 2,000/-</li>
+					</ol>
+				</p>
+			</div>
+			
+			<div class="row">
+				<h2>Premium Membership Benefits</h2>
+				<ul>
+					<li>
+						A unique serial number and a 
+						<%= link_to 'HOC Sticker', 
+						asset_path("hoc.png"), :target => "_blank" %> for their vehicle
+					</li>
+					<li>
+						Have access to discounts by
+						the HOC's in-house mechanics and spares / accessory vendors.
+					</li>
+					<li>
+						Subsidised fees for any activities HOC holds.
+					</li>
+					<li>
+						Free public vehicle profile - HOC Kenya vehicle market. This is where HOC members can sell/buy vehicles from each other.
+					</li>
+				</ul>
+			</div>
+			
+			<p>
+				<%= link_to new_user_path, class: 'btn btn-primary' do %>
+					I want to join HOC!&raquo;
+				<% end %>
+			</p>
+		</div> 
+	</div>
 <% end %>
 
 

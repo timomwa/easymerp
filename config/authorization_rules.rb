@@ -1,6 +1,7 @@
 authorization do
   role :guest do
     has_permission_on :user_sessions, :to => [:create , :destroy]
+    has_permission_on :users, :to => [:create]
   end
 
   # permissions on other roles, such as
