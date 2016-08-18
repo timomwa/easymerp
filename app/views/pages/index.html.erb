@@ -1,46 +1,63 @@
-<%= render 'shared/flash' %>
 <% if current_user %>
 	<p>
-		Application content
+		V-Tech kicking in...
 	</p>
 <% else %>
-	<%= render 'shared/flash' %>	
-	<div class="jumbotron">
-		<div class="container">	
+	<div class="jumbotron hoctransparent hocwhite">
+		<div class="container hoctransparent">
+			
 			<div class="row">
-				<h1>Welcome Visitor</h1>
-				<p>This is the official Honda owners' club Kenya portal.</p>
+			
+				<div class="col-xs-6">
+					<h1 class="hocheader">Welcome Visitor</h1>
+					<p>This is the official Honda owners' club Kenya portal.</p>
+				</div>
+				
+				
+				<div class="col-xs-6">
+					<%= image_tag 'civic_honda2.png', height: '350', class:"img-responsive" %>
+				</div>
+				
 			</div>	
 		    
-			<div class="row">	
-				<h2>What does Honda Owners' Club Kenya do?</h2>
-				<ul>
-					<li>Help each other out take care of our honda cars</li>
-					<li>Participate in charity events - help the less fortunate in society</li>
-					<li>Participate in car events (racing,fun drives)</li>
-					<li>Share information on affordable quality Honda spare parts - avoid being knocked off by rogue sales shops and mechanics</li>
-					<li>Hold discussions pertaining Hondas and related topics</li>
-					<li>We have in-house trusted mechanics who help service Honda vehicles</li>
-					<li>Have fun chatting via our whatsapp group</li>					
-				</ul>
+			<div class="row">
+			    <div class="col-sm-8">	
+					<h2><a href="#whatdoes" class="btn btn-info hocredbtn" data-toggle="collapse">What does Honda Owners' Club Kenya do?</a></h2>
+					<div  id="whatdoes"  class="collapse">
+					  <ul>
+						<li>Help each other out take care of our honda cars</li>
+						<li>Participate in charity events - help the less fortunate in society</li>
+						<li>Participate in car events (racing,fun drives)</li>
+						<li>Share information on affordable quality Honda spare parts - avoid being knocked off by rogue sales shops and mechanics</li>
+						<li>Hold discussions pertaining Hondas and related topics</li>
+						<li>We have in-house trusted mechanics who help service Honda vehicles</li>
+						<li>Have fun chatting via our whatsapp group</li>					
+					  </ul>
+					</div>
+			    </div>
 			</div>	    
 		    
-			<div class="row">	
-				<h2>How do I join Honda Owners' Club Kenya ?</h2>
-				<p>
-					<ol>
+			<div class="row">
+			    <div class="col-sm-8">	
+					<h2><a href="#howtojoin" class="btn btn-info hocredbtn" data-toggle="collapse">How do I join Honda Owners' Club Kenya ?</a></h2>
+					<div  id="howtojoin"  class="collapse">
+					  <ol>
 						<li>You must love Hondas</li>
-						<li>Optionally own a Honda vehicle</li>
+						<li>You must own a Honda vehicle or motorcycle</li>
 						<li><%= link_to 'Register', new_user_path %> yourself as a member.</li> 
 						<li>Join <%= link_to 'Telegram', 'https://telegram.org/', :target => "_blank" %> and you'll be added to the HOC Kenya group</li>
 						<li>Preferably become a premium member by paying KES 2,000/-</li>
-					</ol>
-				</p>
+					  </ol>
+					</div>
+			    </div>
+				
 			</div>
 			
 			<div class="row">
-				<h2>Premium Membership Benefits</h2>
-				<ul>
+			    <div class="col-sm-8">
+				<h2><a href="#premmember" class="btn btn-info hocredbtn" data-toggle="collapse">Premium Membership Benefits</a></h2>
+				<div id="premmember"  class="collapse">
+				  <ul>
 					<li>
 						A unique serial number and a 
 						<%= link_to 'HOC Sticker', 
@@ -56,19 +73,23 @@
 					<li>
 						Free public vehicle profile - HOC Kenya vehicle market. This is where HOC members can sell/buy vehicles from each other.
 					</li>
-				</ul>
+				  </ul>
+				</div>
+			   </div>
 			</div>
 			
-			<p>
-				<%= link_to new_user_path, class: 'btn btn-primary' do %>
-					I want to join HOC!&raquo;
-				<% end %>
-			</p>
+			<br/><br/>
+			
+			<div class="row">
+			   <div class="col-sm-8">
+			  	<p>
+			      		<%= link_to new_user_path, class: 'btn btn-primary hocredbtnlink' do %>
+						I want to join HOC!&raquo;
+			      		<% end %>
+			  	</p>
+			   </div>
+			</div>
+			
 		</div> 
 	</div>
 <% end %>
-
-
-
-
-

@@ -11,6 +11,7 @@ authorization do
     has_permission_on :users, :to => :manage
     has_permission_on :admini_url, :to => :manage
     has_permission_on :listusers_url, :to => :manage
+    has_permission_on :inventories, :to => :manage
   end
 
   role :user do

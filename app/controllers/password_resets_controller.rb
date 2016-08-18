@@ -1,15 +1,14 @@
 class PasswordResetsController < ApplicationController
-  filter_resource_access
+  #filter_resource_access
   def new
   end
 
   def create
-    #puts params.inspect
     @user = User.find_by_email(params[:email])
     if @user
       @user.deliver_password_reset_instructions!
-      flash[:info] = "Instructions to reset your password have been emailed to you."
-      redirect_to '/sign_in'
+      flash[:info] = "Instructions to reset your password have been emailed to you. Please check your email -#{@user.email}- for the re-set link"
+      redirect_to sign_in_url
     else
       flash[:warning] = "No user was found with that email address..."
       render :new

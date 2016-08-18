@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160814212255) do
+ActiveRecord::Schema.define(version: 20160818164021) do
+
+  create_table "inventories", force: :cascade do |t|
+    t.string   "name",       limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "inventory_products", force: :cascade do |t|
+    t.integer "inventory_id", limit: 4
+    t.integer "product_id",   limit: 4
+  end
+
+  add_index "inventory_products", ["inventory_id"], name: "fk_rails_7637bc1835", using: :btree
+  add_index "inventory_products", ["product_id"], name: "fk_rails_b27370d0a4", using: :btree
 
   create_table "products", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -59,4 +73,6 @@ ActiveRecord::Schema.define(version: 20160814212255) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
+  add_foreign_key "inventory_products", "inventories"
+  add_foreign_key "inventory_products", "products"
 end

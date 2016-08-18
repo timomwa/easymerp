@@ -1,0 +1,31 @@
+<% permitted_to? :manage, :users do %>
+	<%= link_to 'New Inventory', new_inventory_path %>
+
+<table class="table table-hover">
+  <tr>
+    <th>Inventory Name</th>
+    <th></th>
+  </tr>
+ 
+  <% @inventories.each do |inventory| %>
+    <tr>
+      <td><%= inventory.name %></td>
+      <td><%= link_to 'Delete',
+      		  inventory_path(:id => inventory.id),
+              method: :delete,
+              data: { confirm: 'Are you sure you want to delete the inventory \''+inventory.name+'\'?' } %>
+              
+              <%= link_to 'Edit',
+      		  inventory,
+              method: :get  %>
+              
+              </td>
+    </tr>
+  <% end %>
+</table>
+<p>
+<%= will_paginate(@inventories, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+<%= page_entries_info @inventories %>
+</p>
+
+<% end %>

@@ -1,0 +1,40 @@
+<div class="row">
+			
+				<div id="myCarousel" class="carousel slide hocimgbox" data-ride="carousel">
+					 <!-- Indicators -->
+					  <ol class="carousel-indicators">
+					    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					  </ol>
+					  
+					  <% for i in 1..17 do %>
+					  	<ol class="carousel-indicators">
+					    	<li data-target="#myCarousel" data-slide-to="<%= i.to_s %>" </li>
+					  	</ol>
+					  <% end %>
+					  
+					  <!-- Wrapper for slides -->
+					  <div class="carousel-inner" role="listbox">
+					    <div class="item active">
+					      <%= image_tag 'carousel0.jpg', height: '350', class: "img-responsive img-thumbnail" %>
+					    </div>
+					    
+					    
+					    <% for i in 1..17 do %>
+					    	<div class="item">
+					    		<%= image_tag 'carousel'+i.to_s, height: '350', class: "img-responsive img-thumbnail" %>
+					    	 </div>
+					    <% end %>
+
+<!-- Left and right controls -->
+  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+ </div>
+				
+				
+</div>

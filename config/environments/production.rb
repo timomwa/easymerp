@@ -80,11 +80,21 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: '127.0.0.1:3000' }
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      address:              'smtp.gmail.com',
-      port:                 587,
-      domain:               'gmail.com',
-      user_name:            'regionalmistestacc@gmail.com',
-      password:             'M1s@ndA12#',
+      #address:              'smtp.gmail.com',
+      #port:                 587,
+      #domain:               'gmail.com',
+      #user_name:            'regionalmistestacc@gmail.com',
+      #password:             'M1s@ndA12#',
+      #authentication:       'login',
+      #enable_starttls_auto: true 
+    
+      address:              'technovation.co.ke',
+      port:                 290,
+      domain:               'technovation.co.ke',
+      user_name:            'hondaownersclub@technovation.co.ke',
+      password:             'Admin123321',
       authentication:       'login',
-      enable_starttls_auto: true  }
+      enable_starttls_auto:  false,
+      openssl_verify_mode:   'none', 
+    }
 end

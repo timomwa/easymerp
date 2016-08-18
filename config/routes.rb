@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   root to: 'pages#index', as: :root
   resources :users, only: [:new, :create, :show]
   resources :products, only: [:index, :new, :create, :update, :show]
+  resources :inventories, only: [:index, :new, :create, :update, :show, :destroy]
   resources :user_sessions, only: [:create, :destroy]
   resources :password_resets, only: [:new, :create, :edit, :update]
     
@@ -20,6 +21,8 @@ Rails.application.routes.draw do
   post '/admin/toggleactive', to: 'administration#toggleactive', as: :toggleactive
   post '/admin/toggleapprove', to: 'administration#toggleapprove', as: :toggleapprove
   post '/admin/toggleconfirm', to: 'administration#toggleconfirm', as: :toggleconfirm
+  get '/gallery', to: 'gallery#index', as: :gallery
+  
   #get '/admin/deactivateuser', to: 'administration#deactivateuser', as: :deactivateuser
   #get '/new_product', to: 'products#new', as: :new_product
   # The priority is based upon order of creation: first created -> highest priority.

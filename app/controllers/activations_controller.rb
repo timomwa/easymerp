@@ -5,6 +5,13 @@ class ActivationsController < ApplicationController
     raise Exception if @user.active?
 
     if @user.activate!
+      role = Role.find_by_title('makmende')
+      if(role.nil?)
+        role = Role.new
+        role.title = 'makmende'
+      end
+      @user.roles  << role
+      @user.save
       flash[:success] = "Your account has been activated!"
       @user.deliver_welcome!
       UserSession.create(@user, false) # Log user in manually

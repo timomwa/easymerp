@@ -15,3 +15,104 @@
  */
 @import "bootstrap-sprockets";
 @import "bootstrap";
+/*
+official HOC red 
+Hex: ee1d23
+RGBA: 238,29,35,255
+
+Hover Hex: #d51017
+*/
+body, html {
+  /*height: 100%;
+  background-repeat: no-repeat;*/
+  background-color: rgb(32, 32, 32);
+  background-image: linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,1)), linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(to bottom, rgb(8, 8, 8), rgb(32, 32, 32));
+  background-size: 100% 100%, 10px 10px, 10px 10px, 10px 5px;
+  background-position: 0px 0px, 0px 0px, 5px 5px, 0px 0px;
+}
+
+.hoctransparent{
+	/* Fallback for web browsers that doesn't support RGBa */
+	background: rgb(0, 0, 0);
+	/* RGBa with 0.6 opacity */
+	background: rgba(0, 0, 0, 0);
+}
+
+h1.hocheader{
+	color: #ed1219;
+}
+
+.hocnoborder{
+	border : none;
+}
+.hocredbtn{
+	color: #fde8e9;
+	background-color: #d51017;
+	border-color: #d51017;
+	
+}
+.hocredbtn:hover{
+	color: #fde8e9;
+	background-color: #ed1219;
+	border-color: #ef2a30;
+	box-shadow: 0 0 6px #ef2a30;
+}
+.hocredbtn:focus{
+	color: #fde8e9;
+	background-color: #ed1219;
+	border-color: #ed1219;
+}
+
+
+.hocredbtn:active:hover{
+	color: #f8a0a3;
+	background-color: #d51017;
+	border-color: #d51017;
+	box-shadow: 0 0 6px #d51017;
+}
+.hocredbtn:active:focus{
+	color: #f8a0a3;
+	background-color: #d51017;
+	border-color: #d51017;
+}
+
+
+
+.hocredbtnlink{
+	color: #fde8e9;
+	background-color: #5f070a;
+	border-color: #8e0b0f;
+	box-shadow: 0 0 16px #5f070a;
+	
+}
+.hocredbtnlink:hover{
+	color: #fde8e9;
+	background-color: #8e0b0f;
+	border-color: #bf0d13;
+}
+.hocredbtnlink:focus{
+	color: #fde8e9;
+	background-color: #8e0b0f;
+	border-color: #bf0d13;
+	box-shadow: 0 0 10px #f8a0a3;
+}
+
+
+.hocredbtnlink:active:hover{
+	color: #f8a0a3;
+	background-color: #bf0d13;
+	border-color: #bf0d13;
+}
+.hocredbtnlink:active:focus{
+	color: #f8a0a3;
+	background-color: #d51017;
+	border-color: #d51017;
+}
+
+.hocwhite{
+	color: #a6a6a6;
+}
+
+.hocimgbox{
+	box-shadow: 5px 5px 30px lightblue;
+}

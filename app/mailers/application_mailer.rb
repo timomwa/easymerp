@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
   include Resque::Mailer
-  default from: "noreply@easymerp.com"
+  default from: "hondaownersclub@technovation.co.ke"
   layout 'mailer'
 end

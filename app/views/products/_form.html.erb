@@ -12,6 +12,9 @@
     <%= f.number_field :count,  class: "form-control", placeholder: "Initial Quantity"  %>
   </p>
   <p>
+    <%= f.collection_select(:inventory, :inventory_id, Inventory.all, :id, prompt: true) %>
+  </p>
+  <p>
     <%= f.text_area :description,  class: "form-control", placeholder: "Description"  %>
   </p>
   <p><%= f.submit "Add Product", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>

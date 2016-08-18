@@ -46,18 +46,24 @@ Rails.application.configure do
   #tls="true" />
   config.action_mailer.default_url_options = { host: '127.0.0.1:3000' }
   config.action_mailer.delivery_method = :smtp
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               'gmail.com',
-    user_name:            'regionalmistestacc@gmail.com',
-    password:             'M1s@ndA12#',
-    authentication:       'login',
-    enable_starttls_auto: true  }
+    #address:              'smtp.gmail.com',
+    #port:                 587,
+    #domain:               'gmail.com',
+    #user_name:            'regionalmistestacc@gmail.com',
+    #password:             'M1s@ndA12#',
+    #authentication:       'login',
+    #enable_starttls_auto: true
+    
+    address:              'sv2.hosting-server-1022.com',
+    port:                 290,
+    domain:               'sv2.hosting-server-1022.com',
+    user_name:            'hondaownersclub@technovation.co.ke',
+    password:             'Admin123321',
+    authentication:       'plain',
+    tls: true,
+    enable_starttls_auto: false,
+    openssl_verify_mode:   'none', }
 end
-
-
-#//= link_directory ../stylesheets .scss
-#//= link_directory ../stylesheets application.css
-#//= link_directory ../stylesheets application.css
-#//= link_directory ../javascripts application.js

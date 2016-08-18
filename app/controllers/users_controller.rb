@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  filter_resource_access
+  #filter_resource_access
   def index
     @users = User.paginate(:page => params[:page], :per_page => 10)
   end
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     if @user.save_without_session_maintenance
       @user.deliver_activation_instructions!
       flash[:info] = "Your account has been created. Please check your e-mail - #{@user.email} - for your account activation instructions!"
-      redirect_to email_sent_url
+      redirect_to root_url
     else
       render 'new'
     end
@@ -30,6 +30,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation, :remember_me)
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 end
