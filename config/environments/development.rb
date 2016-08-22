@@ -35,6 +35,9 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
+  
+  #ActiveRecord::Base.logger = Logger.new(STDOUT)
+  #ActiveRecord::Base.logger = Log4r::Logger.new("Application Log")
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

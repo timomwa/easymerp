@@ -1,0 +1,8 @@
+<tr>
+      <td><%= product.sku %></td>
+      <td><%= product.name %></td>
+      <td><%= product.count %></td>
+      <% permitted_to? :manage, :products do %>
+      	<td><%= link_to 'Edit', product, method: :get %></td>
+      <% end %>
+</tr>

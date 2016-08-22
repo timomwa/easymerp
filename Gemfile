@@ -1,6 +1,14 @@
 source 'https://rubygems.org'
+
+gem 'carrierwave', '~> 0.10.0'
+gem 'mini_magick', '~> 4.3'
+gem 'responders'
+
 gem 'will_paginate'
 gem 'declarative_authorization', github: "stffn/declarative_authorization"
+
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
 gem 'bootstrap-sass'
 gem 'authlogic', '3.4.6'
 gem 'autoprefixer-rails'
@@ -23,8 +31,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

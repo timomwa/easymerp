@@ -12,10 +12,12 @@
 
 
 
-//= require bootstrap-sprockets
+//require bootstrap-sprockets --MAY NOT BE NEEDED
+
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
+//require bootstrap
+//=require bootstrap-sprockets
 //= require turbolinks
 //= require_tree .
 

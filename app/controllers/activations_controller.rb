@@ -5,10 +5,10 @@ class ActivationsController < ApplicationController
     raise Exception if @user.active?
 
     if @user.activate!
-      role = Role.find_by_title('makmende')
+      role = Role.find_by_title('user')
       if(role.nil?)
         role = Role.new
-        role.title = 'makmende'
+        role.title = 'user'
       end
       @user.roles  << role
       @user.save
