@@ -1,0 +1,15 @@
+<%= form_for @gl_mapping do |f| %>
+	
+	<%= render 'shared/errors', object: @gl_mapping %>
+  
+  <p>
+    <%= f.collection_select :transaction_type_id, TransactionType.all, :id,:name, {prompt: "Select Transaction Type"}, {class: "form-control",required: true} %>
+  </p>
+  <p>
+    <%= f.collection_select :debit_account_id, Account.all, :id,:name, {prompt: "Select Debit Account"}, {class: "form-control",required: true} %>
+  </p>
+  <p>
+    <%= f.collection_select :credit_account_id, Account.all, :id,:name, {prompt: "Select Credit Account"}, {class: "form-control",required: true} %>
+  </p>
+  <p><%= f.submit "Create Mapping", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>
+<% end %>

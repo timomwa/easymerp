@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20160921285244) do
 
   add_index "gl_mappings", ["credit_account_id"], name: "fk_rails_5092de7b19", using: :btree
   add_index "gl_mappings", ["debit_account_id"], name: "fk_rails_f075530971", using: :btree
-  add_index "gl_mappings", ["transaction_type_id"], name: "fk_rails_65c2249a0a", using: :btree
+  add_index "gl_mappings", ["transaction_type_id", "debit_account_id", "credit_account_id"], name: "typedrcridx", unique: true, using: :btree
 
   create_table "inventories", force: :cascade do |t|
     t.string   "name",       limit: 255, null: false

@@ -3,7 +3,7 @@
 	<%= render 'shared/errors', object: @product %>  
 	
   <p>
-    <%= f.text_field :name,  class: "form-control", placeholder: "Product Name" %>
+    <%= f.text_field :name,  class: "form-control", placeholder: "Product Name", required: true %>
   </p>
   <p>
     <%= f.text_field :sku, value: getSeq("SKU"),  class: "form-control", placeholder: "SKU", readonly: true  %>

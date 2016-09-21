@@ -9,5 +9,7 @@ class CreateGlMapping < ActiveRecord::Migration
     add_foreign_key :gl_mappings, :transaction_types, column: :transaction_type_id
     add_foreign_key :gl_mappings, :accounts, column: :debit_account_id
     add_foreign_key :gl_mappings, :accounts, column: :credit_account_id
+    
+    add_index :gl_mappings, [:transaction_type_id,:debit_account_id,:credit_account_id], unique: true, :name => 'typedrcridx'
   end
 end

@@ -1,0 +1,36 @@
+<%= render 'shared/flash' %>
+<% permitted_to? :manage, :gl_mappings do %>
+	<%= link_to 'New GL Mapping', new_gl_mapping_path %>
+
+<table class="table table-hover">
+  <tr>
+    <th>Tx Type</th>
+    <th>Debit Account</th>
+    <th>Credit Account</th>
+    <th>Created At</th>
+    <th></th>
+  </tr>
+
+  <% @gl_mappings.each do |gl_mapping| %>
+    <tr>
+      <td><%=  TransactionType.find(gl_mapping.transaction_type_id).name %></td>
+      <td><%=  Account.find(gl_mapping.debit_account_id).name %></td>
+      <td><%=  Account.find(gl_mapping.credit_account_id).name %></td>
+      <td><%= gl_mapping.created_at.strftime("%Y %B %d at %I:%M %p") %></td>
+      <% permitted_to? :manage, :gl_mappings do %>
+      	<td><%= link_to 'Edit', gl_mapping, method: :get %></td>
+      <% end %>
+      <% permitted_to? :manage, :gl_mappings do %>
+      	<td><%= link_to 'Delete', gl_mapping, method: :delete,
+      	data: { confirm: 'Are you sure you want to  delete this GL mapping ?' }  %></td>
+      <% end %>
+      
+    </tr>
+  <% end %>
+</table>
+<p>
+<%= will_paginate(@gl_mappings, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+<%= page_entries_info @gl_mappings %>
+</p>
+
+<% end %>
