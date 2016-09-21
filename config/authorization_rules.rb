@@ -5,13 +5,20 @@ authorization do
   end
 
   # permissions on other roles, such as
+  role :serviceprovider do
+    has_permission_on :accounts, :to => :manage
+    has_permission_on :accounting_periods, :to => :manage
+  end
   role :admin do
     includes :guest
+    includes :serviceprovider
     has_permission_on :products, :to => :manage
     has_permission_on :users, :to => :manage
     has_permission_on :admini_url, :to => :manage
     has_permission_on :listusers_url, :to => :manage
     has_permission_on :inventories, :to => :manage
+    has_permission_on :transaction_types, :to => :manage
+    has_permission_on :gl_mappings, :to => :manage
   end
 
   role :user do

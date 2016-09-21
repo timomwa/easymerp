@@ -1,0 +1,25 @@
+<%= form_for @accounting_period do |f| %>
+	
+	<%= render 'shared/errors', object: @accounting_period %>
+  
+  <p>
+    <%= f.text_field :name,  class: "form-control", placeholder: "Name", required: true %>
+  </p>
+  <p>
+    <%= f.text_field :fromDate, :value => !@accounting_period.fromDate.nil? ? @accounting_period.fromDate.strftime('%Y %B %d at %I:%M %p') : '', class: "datepicker_fr form-control", placeholder: "Date from", required: true, "data-date-format" => "yyyy-mm-dd 00:00:00" %>
+  </p>
+  <p>
+    <%= f.text_field :toDate, :value => !@accounting_period.toDate.nil? ? @accounting_period.toDate.strftime('%Y %B %d at %I:%M %p') : '', class: "datepicker_to form-control", placeholder: "Date to", required: true, "data-date-format" => "yyyy-mm-dd 23:59:59"  %>
+  </p>
+  <p>
+    <%= f.select :status, AccountingPeriod.statuses.to_a.map { |key, value| [key.humanize, key] },  {prompt: "Select Status"},  {class: "form-control"}  %>
+  </p>
+  <p><%= f.submit "Create Period", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.datepicker_fr').datepicker();
+    $('.datepicker_to').datepicker();
+  });
+</script>

@@ -1,22 +1,9 @@
-<%= link_to 'New Product', new_product_url, remote: true %>
-<div class="row">
-  <div class="col-md-5 col-md-offset-1">
-    <h2>Products</h2>
-  </div>
-
-  <div class="col-md-2 col-md-offset-4">
-    <%= link_to new_product_url, remote: true do %>
-      <button class="btn btn-default">New</button>
-    <% end %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6 col-md-offset-2" id="product-form" style="display:none;"></div>
-</div>
-
-<div class="row">
- <table id="products-table" class="table table-hover">
+<%= render 'shared/flash' %>
+<h1>Products</h1>
+<% permitted_to? :manage, :products do %>
+<%= link_to 'New Product', new_product_url %>
+<% end %>
+<table class="table table-hover">
   <tr>
     <th>SKU</th>
     <th>Name</th>
@@ -25,11 +12,22 @@
     	<th></th>
     <% end %>
   </tr>
-  <%= render @products %>
-  </table>
+ 
+ 
+  <% @products.each do |product| %>
+    <tr>
+      <td><%= product.sku %></td>
+      <td><%= product.name %></td>
+      <td><%= product.count %></td>
+      <% permitted_to? :manage, :products do %>
+      	<td><%= link_to 'Edit', product, method: :get %></td>
+      <% end %>
   
-</div>
+    </tr>
+  <% end %>
+</table>
+
 <p>
-<%= will_paginate(@products, :id => "productpagination", :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
-<span  id="gotham"><%= page_entries_info @products %></span>
+<%= will_paginate(@products, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+<%= page_entries_info @products %>
 </p>

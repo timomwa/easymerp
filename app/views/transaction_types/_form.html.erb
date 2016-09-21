@@ -1,0 +1,17 @@
+<%= form_for @transaction_type do |f| %>
+	
+	<%= render 'shared/errors', object: @transaction_type %>
+  
+  <p>
+    <%= f.text_field :name,  class: "form-control", placeholder: "Name", required: true %>
+  </p>
+  
+  <p>
+    <%= f.text_field :trx_code, value: getSeq("TXC"), class: "form-control", placeholder: "Trx Code", required: true, readonly: true %>
+  </p>
+  
+  <p>
+    <%= f.text_area :description, class: "form-control", placeholder: "Description" %>
+  </p>
+  <p><%= f.submit "Create Trans Type", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>
+<% end %>

@@ -1,0 +1,34 @@
+<%= render 'shared/flash' %>
+<% permitted_to? :manage, :general_ledgers do %>
+	<%= link_to 'New GL Entry', new_general_ledger_path %>
+
+<table class="table table-hover">
+  <tr>
+    <th>Entry Date</th>
+    <th>Seq</th>
+    <th>Date to</th>
+    <th></th>
+  </tr>
+ 
+  <% @general_ledgers.each do |general_ledger| %>
+    <tr>
+      <td><%= general_ledger.entry_date %></td>
+      <td><%= general_ledger.seq %></td>
+      <td><%= general_ledger.toDate.strftime("%Y %B %d at %I:%M %p") %></td>
+      <% permitted_to? :manage, :accounting_periods do %>
+      	<td><%= link_to 'Edit', accounting_p, method: :get %></td>
+      <% end %>
+      <% permitted_to? :manage, :accounting_periods do %>
+      	<td><%= link_to 'Delete', accounting_p, method: :delete,
+      	data: { confirm: 'Are you sure you want to  delete the accounting period \''+accounting_p.name+'\'?' }  %></td>
+      <% end %>
+      
+    </tr>
+  <% end %>
+</table>
+<p>
+<%= will_paginate(@accounting_periods, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+<%= page_entries_info @accounting_periods %>
+</p>
+
+<% end %>

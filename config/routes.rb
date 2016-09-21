@@ -8,6 +8,12 @@ Rails.application.routes.draw do
   root to: 'pages#index', as: :root
   resources :users, only: [:new, :create, :show]
   resources :products, only: [:index, :new, :create, :update, :show]
+  resources :accounts, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :accounting_periods, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :transaction_types, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :gl_mappings, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :sequences, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :general_ledgers, only: [:index, :new, :create, :update, :show, :destroy]
   resources :inventories, only: [:index, :new, :create, :update, :show, :destroy]
   resources :user_sessions, only: [:create, :destroy]
   resources :password_resets, only: [:new, :create, :edit, :update]
@@ -22,6 +28,7 @@ Rails.application.routes.draw do
   post '/admin/toggleapprove', to: 'administration#toggleapprove', as: :toggleapprove
   post '/admin/toggleconfirm', to: 'administration#toggleconfirm', as: :toggleconfirm
   get '/gallery', to: 'gallery#index', as: :gallery
+  get '/accountingpanel', to: 'accountingpanel#index', as: :accountingpanel
   
   #get '/admin/deactivateuser', to: 'administration#deactivateuser', as: :deactivateuser
   #get '/new_product', to: 'products#new', as: :new_product

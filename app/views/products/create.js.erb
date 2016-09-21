@@ -1,8 +1,0 @@
-$('#product-form').slideUp(350);
-$('#products-table').html('');
-$('#products-table').html("<tr><th>SKU</th><th>Name</th><th>Stock Qty</th><th></th></tr><%= j (render @products) %>");
-
-$('#gotham').html('');
-$('#productpagination').html('');
-$('#productpagination').html('<%= will_paginate(@products, :id => "productpagination", :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0) %>');
-$('#gotham').html(<%= page_entries_info @products %>);

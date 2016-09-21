@@ -1,4 +1,4 @@
-<%= form_for @product, :url => {:action => 'create', :format => :js}, remote: true do |f| %>
+<%= form_for @product do |f| %>
 	
 	<%= render 'shared/errors', object: @product %>  
 	
@@ -6,7 +6,7 @@
     <%= f.text_field :name,  class: "form-control", placeholder: "Product Name" %>
   </p>
   <p>
-    <%= f.text_field :sku,  class: "form-control", placeholder: "SKU"  %>
+    <%= f.text_field :sku, value: getSeq("SKU"),  class: "form-control", placeholder: "SKU", readonly: true  %>
   </p>
   <p>
     <%= f.number_field :count,  class: "form-control", placeholder: "Initial Quantity"  %>

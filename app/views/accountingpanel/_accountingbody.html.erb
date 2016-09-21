@@ -1,0 +1,27 @@
+<div class="col-xs-7 col-sm-6 col-lg-8" >
+<% if params[:custparam].to_s == "accounts".to_s  %>
+
+	<% permitted_to? :manage, :accounts do %>
+		<%= render 'accounts/index' %>
+	<% end %>
+	
+<% elsif params[:custparam].to_s == "accounting_period".to_s  %>
+	<% permitted_to? :manage, :accounting_periods do %>
+		<%= render 'accounting_periods/index' %>
+	<% end %>
+<% elsif params[:custparam].to_s == "transaction_types".to_s  %>
+	<% permitted_to? :manage, :transaction_types do %>
+		<%= render 'transaction_types/index' %>
+	<% end %>
+<% elsif params[:custparam].to_s == "gl_mappings".to_s  %>
+	<% permitted_to? :manage, :gl_mappings do %>
+		<%= render 'gl_mappings/index' %>
+	<% end %>	
+<% else %>
+	<% permitted_to? :manage, :accounting_periods do %>
+		<%= render 'accounting_periods/index' %>
+	<% end %>
+<% end %>
+
+
+</div>

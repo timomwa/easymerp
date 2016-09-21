@@ -1,0 +1,4 @@
+<% permitted_to? :manage, :accounts do %>
+	<%= render 'accountingpanel/accountingnav' %>
+	<%= render 'accountingpanel/accountingbody' %>
+<% end %>

@@ -1,0 +1,36 @@
+<%= render 'shared/flash' %>
+<% permitted_to? :manage, :accounts do %>
+	<%= link_to 'New Account', new_account_path %>
+
+<table class="table table-hover">
+  <tr>
+    <th>Name</th>
+    <th>Code</th>
+    <th>Created At</th>
+    <th>Description</th>
+    <th></th>
+  </tr>
+ 
+  <% @accounts.each do |account| %>
+    <tr>
+      <td><%= account.name %></td>
+      <td><%= account.code %></td>
+      <td><%= account.created_at.strftime("%Y %B %d at %I:%M %p") %></td>
+      <td><%= account.description %></td>
+      <% permitted_to? :manage, :accounts do %>
+      	<td><%= link_to 'Edit', account, method: :get %></td>
+      <% end %>
+      <% permitted_to? :manage, :accounts do %>
+      	<td><%= link_to 'Delete', account, method: :delete,
+      	data: { confirm: 'Are you sure you want to  delete the account \''+account.name+'\'?' }  %></td>
+      <% end %>
+      
+    </tr>
+  <% end %>
+</table>
+<p>
+<%= will_paginate(@accounts, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+<%= page_entries_info @accounts %>
+</p>
+
+<% end %>

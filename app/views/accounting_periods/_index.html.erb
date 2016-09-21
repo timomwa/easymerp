@@ -1,0 +1,34 @@
+<%= render 'shared/flash' %>
+<% permitted_to? :manage, :accounting_periods do %>
+	<%= link_to 'New Accounting Period', new_accounting_period_path %>
+
+<table class="table table-hover">
+  <tr>
+    <th>Name</th>
+    <th>Date from</th>
+    <th>Date to</th>
+    <th></th>
+  </tr>
+ 
+  <% @accounting_periods.each do |accounting_p| %>
+    <tr>
+      <td><%= accounting_p.name %></td>
+      <td><%= accounting_p.fromDate.strftime("%Y %B %d at %I:%M %p") %></td>
+      <td><%= accounting_p.toDate.strftime("%Y %B %d at %I:%M %p") %></td>
+      <% permitted_to? :manage, :accounting_periods do %>
+      	<td><%= link_to 'Edit', accounting_p, method: :get %></td>
+      <% end %>
+      <% permitted_to? :manage, :accounting_periods do %>
+      	<td><%= link_to 'Delete', accounting_p, method: :delete,
+      	data: { confirm: 'Are you sure you want to  delete the accounting period \''+accounting_p.name+'\'?' }  %></td>
+      <% end %>
+      
+    </tr>
+  <% end %>
+</table>
+<p>
+<%= will_paginate(@accounting_periods, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+<%= page_entries_info @accounting_periods %>
+</p>
+
+<% end %>

@@ -1,0 +1,36 @@
+<%= render 'shared/flash' %>
+<% permitted_to? :manage, :transaction_types do %>
+	<%= link_to 'New Transaction Type', new_transaction_type_path %>
+
+<table class="table table-hover">
+  <tr>
+    <th>Code</th>
+    <th>Name</th>
+    <th>Created At</th>
+    <th>Description</th>
+    <th></th>
+  </tr>
+ 
+  <% @transaction_types.each do |tx_type| %>
+    <tr>
+      <td><%= tx_type.trx_code %></td>
+      <td><%= tx_type.name %></td>
+      <td><%= tx_type.created_at.strftime("%Y %B %d at %I:%M %p") %></td>
+      <td><%= tx_type.description %></td>
+      <% permitted_to? :manage, :transaction_types do %>
+      	<td><%= link_to 'Edit', tx_type, method: :get %></td>
+      <% end %>
+      <% permitted_to? :manage, :accounts do %>
+      	<td><%= link_to 'Delete', tx_type, method: :delete,
+      	data: { confirm: 'Are you sure you want to  delete the transaction type \''+tx_type.name+'\'?' }  %></td>
+      <% end %>
+      
+    </tr>
+  <% end %>
+</table>
+<p>
+<%= will_paginate(@transaction_types, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+<%= page_entries_info @transaction_types %>
+</p>
+
+<% end %>

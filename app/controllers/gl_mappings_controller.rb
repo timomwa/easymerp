@@ -1,0 +1,3 @@
+class GlMappingsController < ApplicationController
+  
+end

@@ -2,8 +2,8 @@ class ProductsController < ApplicationController
   #filter_resource_access
   #include ActionController::MimeResponds
   #include ActionController::ImplicitRender
-  before_action :all_products, only: [:index, :create]
-  respond_to :html,:js
+  #before_action :all_products, only: [:index, :create]
+  #respond_to :html,:js
 
   def index
     @products = Product.paginate(:page => params[:page], :per_page => 5)
@@ -20,24 +20,31 @@ class ProductsController < ApplicationController
   end
 
   def create
-    logger.info "\n\n\t1.@current_user SHOULD FUCKING SAVE AT THIS FUCKING POINT!!\n\n"
-
+    
     @product = Product.new(product_params)
+       if @product.save
+         redirect_to products_url
+       else
+         render :new
+       end
+    #logger.info "\n\n\t1.@current_user SHOULD FUCKING SAVE AT THIS FUCKING POINT!!\n\n"
 
-    respond_to do |format|
-      if @product.save
-        logger.info "\n\n\t2. SHOULD FUCKING SAVE AT THIS FUCKING POINT!!\n\n"
-        @product = add_product_to_inventory
-        #redirect_to products_url
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
-        format.js   {}
-        format.json { render json: @product, status: :created, location: @product }
-      else
-        #render :new
-        format.html { render action: "new" }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
-    end
+    #@product = Product.new(product_params)
+
+    #respond_to do |format|
+    #  if @product.save
+    #    logger.info "\n\n\t2. SHOULD FUCKING SAVE AT THIS FUCKING POINT!!\n\n"
+    #    @product = add_product_to_inventory
+    #    #redirect_to products_url
+    #    format.html { redirect_to @product, notice: 'Product was successfully created.' }
+    #    format.js   {}
+    #    format.json { render json: @product, status: :created, location: @product }
+    #  else
+    #    #render :new
+    #    format.html { render action: "new" }
+    #    format.json { render json: @product.errors, status: :unprocessable_entity }
+    #  end
+    #end
     #@products = Product.paginate(:page => params[:page], :per_page => 5)
       
   end
@@ -79,6 +86,7 @@ class ProductsController < ApplicationController
     inventoryproduct.inventory = inventory
     inventoryproduct.save
 
+    inventoryproduct.product
   end
 
   private
