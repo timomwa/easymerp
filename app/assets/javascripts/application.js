@@ -21,5 +21,6 @@
 //= require bootstrap-modal
 //= require bootstrap-datepicker
 //= require turbolinks
+//= require select2-full
 //= require_tree .
 

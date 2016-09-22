@@ -19,6 +19,8 @@ authorization do
     has_permission_on :inventories, :to => :manage
     has_permission_on :transaction_types, :to => :manage
     has_permission_on :gl_mappings, :to => :manage
+    has_permission_on :vehicle_makes, :to => :manage
+    has_permission_on :vehicle_models, :to => :manage
   end
 
   role :user do

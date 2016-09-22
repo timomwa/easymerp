@@ -1,0 +1,29 @@
+<% permitted_to? :manage, :vehicle_makes do %>
+	<%= link_to 'New Vehicle Make', new_vehicle_make_path %>
+
+<table class="table table-hover">
+  <tr>
+    <th>Name</th>
+    <th></th>
+  </tr>
+ 
+  <% @vehicle_makes.each do |vehicle_make| %>
+    <tr>
+      <td><%= vehicle_make.name %></td>
+      <% permitted_to? :manage, :vehicle_makes do %>
+      	<td><%= link_to 'Edit', vehicle_make, method: :get %></td>
+      <% end %>
+      <% permitted_to? :manage, :vehicle_makes do %>
+      	<td><%= link_to 'Delete', vehicle_make, method: :delete,
+      	data: { confirm: 'Are you sure you want to  delete the vehicle make \''+vehicle_make.name+'\'?' }  %></td>
+      <% end %>
+      
+    </tr>
+  <% end %>
+</table>
+<p>
+<%= will_paginate(@vehicle_makes, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+<%= page_entries_info @vehicle_makes %>
+</p>
+
+<% end %>

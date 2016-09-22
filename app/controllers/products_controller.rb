@@ -12,7 +12,6 @@ class ProductsController < ApplicationController
   def show
     @product = Product.find(params[:id])
     @product = populate_product_inventory
-
   end
 
   def new
@@ -27,25 +26,6 @@ class ProductsController < ApplicationController
        else
          render :new
        end
-    #logger.info "\n\n\t1.@current_user SHOULD FUCKING SAVE AT THIS FUCKING POINT!!\n\n"
-
-    #@product = Product.new(product_params)
-
-    #respond_to do |format|
-    #  if @product.save
-    #    logger.info "\n\n\t2. SHOULD FUCKING SAVE AT THIS FUCKING POINT!!\n\n"
-    #    @product = add_product_to_inventory
-    #    #redirect_to products_url
-    #    format.html { redirect_to @product, notice: 'Product was successfully created.' }
-    #    format.js   {}
-    #    format.json { render json: @product, status: :created, location: @product }
-    #  else
-    #    #render :new
-    #    format.html { render action: "new" }
-    #    format.json { render json: @product.errors, status: :unprocessable_entity }
-    #  end
-    #end
-    #@products = Product.paginate(:page => params[:page], :per_page => 5)
       
   end
 
@@ -68,7 +48,7 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:name, :sku, :count, :description)
+    params.require(:product).permit(:vehicle_model_id, :name, :sku, :count, :description, :inventory_id)
   end
 
   private

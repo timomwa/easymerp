@@ -1,4 +1,3 @@
-<%= render 'shared/flash' %>
 <% permitted_to? :manage, :users do %>
 	<%= link_to 'New user', new_user_path %>
 

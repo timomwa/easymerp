@@ -1,4 +1,3 @@
-<%= render 'shared/flash' %>
 <% permitted_to? :manage, :gl_mappings do %>
 	<%= link_to 'New GL Mapping', new_gl_mapping_path %>
 

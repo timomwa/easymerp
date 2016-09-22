@@ -1,0 +1,45 @@
+<div class="hoctransparent hocwhite">
+	<div class="container hoctransparent">
+		<% counter = 0
+		   count_per_row = 4
+		   products = Product.paginate(:page => params[:page], :per_page => 10)
+		 %>
+		<% products.each do |product| %>
+		<% remainder = counter%count_per_row
+		   new_row = remainder==0
+		   counter = counter+1
+		 %>  
+		 
+		 
+		<%  if(new_row || counter==0) %>
+		      <div class="row">
+		<%  end %>
+		
+			<div class="col-sm-3 col-xs-3">
+				<div class="thumbnail">
+					
+					<img src="http://placehold.it/800x500" alt="">
+                    <div class="caption">
+                    	<h3><%= shortenStr(product.name,10) %></h3>
+                        <h4>Kes. 00,000.00</h4>
+                        <p><%= shortenStr(product.description,30) %></p>
+                        <p>
+                            <a href="#" class="btn btn-primary">Buy</a> <a href="#" class="btn btn-default">More Info</a>
+                        </p>
+                    </div>
+				</div>
+			</div>
+		
+		<%  if(counter==count_per_row)
+				counter = 0
+		%>
+				</div>
+		<%  end %>
+		
+		<% end %>
+		
+	</div>
+		<%= will_paginate(products, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+		<%= page_entries_info products %>
+		
+</div>

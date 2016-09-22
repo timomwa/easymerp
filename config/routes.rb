@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   resources :accounting_periods, only: [:index, :new, :create, :update, :show, :destroy]
   resources :transaction_types, only: [:index, :new, :create, :update, :show, :destroy]
   resources :gl_mappings, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :vehicle_makes, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :vehicle_models, only: [:index, :new, :create, :update, :show, :destroy]
   resources :sequences, only: [:index, :new, :create, :update, :show, :destroy]
   resources :general_ledgers, only: [:index, :new, :create, :update, :show, :destroy]
   resources :inventories, only: [:index, :new, :create, :update, :show, :destroy]
@@ -28,6 +30,8 @@ Rails.application.routes.draw do
   post '/admin/toggleapprove', to: 'administration#toggleapprove', as: :toggleapprove
   post '/admin/toggleconfirm', to: 'administration#toggleconfirm', as: :toggleconfirm
   get '/gallery', to: 'gallery#index', as: :gallery
+  get '/search/:object', to: 'search#search', as: :genericsearch
+  get '/sparesandaccessories', to: 'sparesandaccessories#index', as: :sparesandaccessories
   get '/accountingpanel', to: 'accountingpanel#index', as: :accountingpanel
   
   #get '/admin/deactivateuser', to: 'administration#deactivateuser', as: :deactivateuser

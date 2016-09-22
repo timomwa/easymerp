@@ -1,4 +1,3 @@
-<%= render 'shared/flash' %>
 <% permitted_to? :manage, :accounting_periods do %>
 	<%= link_to 'New Accounting Period', new_accounting_period_path %>
 

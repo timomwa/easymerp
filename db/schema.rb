@@ -87,16 +87,18 @@ ActiveRecord::Schema.define(version: 20160921285244) do
   add_index "inventory_products", ["product_id"], name: "fk_rails_b27370d0a4", using: :btree
 
   create_table "products", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.string   "sku",         limit: 255,   default: "SKU01", null: false
-    t.integer  "count",       limit: 4,     default: 0,       null: false
-    t.text     "description", limit: 65535
+    t.string   "name",             limit: 255
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.string   "sku",              limit: 255,   default: "SKU01", null: false
+    t.integer  "count",            limit: 4,     default: 0,       null: false
+    t.text     "description",      limit: 65535
+    t.integer  "vehicle_model_id", limit: 4
   end
 
   add_index "products", ["name"], name: "index_products_on_name", using: :btree
   add_index "products", ["sku"], name: "index_products_on_sku", unique: true, using: :btree
+  add_index "products", ["vehicle_model_id"], name: "index_products_on_vehicle_model_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "title",      limit: 255
@@ -154,6 +156,23 @@ ActiveRecord::Schema.define(version: 20160921285244) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
+  create_table "vehicle_makes", force: :cascade do |t|
+    t.string "name", limit: 255, null: false
+  end
+
+  add_index "vehicle_makes", ["name"], name: "index_vehicle_makes_on_name", unique: true, using: :btree
+
+  create_table "vehicle_models", force: :cascade do |t|
+    t.string  "name",            limit: 255, null: false
+    t.integer "year",            limit: 4,   null: false
+    t.integer "vehicle_make_id", limit: 4,   null: false
+  end
+
+  add_index "vehicle_models", ["name", "year", "vehicle_make_id"], name: "vclemakeid", unique: true, using: :btree
+  add_index "vehicle_models", ["name"], name: "index_vehicle_models_on_name", using: :btree
+  add_index "vehicle_models", ["vehicle_make_id"], name: "index_vehicle_models_on_vehicle_make_id", using: :btree
+  add_index "vehicle_models", ["year"], name: "index_vehicle_models_on_year", using: :btree
+
   add_foreign_key "account_balances", "accounting_periods"
   add_foreign_key "account_balances", "accounts"
   add_foreign_key "general_ledgers", "accounting_periods"
@@ -163,4 +182,6 @@ ActiveRecord::Schema.define(version: 20160921285244) do
   add_foreign_key "gl_mappings", "transaction_types"
   add_foreign_key "inventory_products", "inventories"
   add_foreign_key "inventory_products", "products"
+  add_foreign_key "products", "vehicle_models", name: "prodvclmdidx"
+  add_foreign_key "vehicle_models", "vehicle_makes"
 end

@@ -1,8 +1,16 @@
 <%= form_for @product do |f| %>
 	
 	<%= render 'shared/errors', object: @product %>  
-	
+
   <p>
+    <% prev_selected = VehicleMake.find_by_model_id(@product.vehicle_model_id)
+    	if(prev_selected.nil?)
+    		prev_selected = []
+    	end
+     %>
+    <%= f.collection_select :vehicle_model_id, prev_selected , :id,:name, {}, {required: 'true', autofocus: 'true', class: 'form-control', id: 'vehicle_model'} %>
+  </p>
+   <p>
     <%= f.text_field :name,  class: "form-control", placeholder: "Product Name", required: true %>
   </p>
   <p>
@@ -13,10 +21,51 @@
   </p>
    
   <p>
-    <%= f.collection_select :inventory_id, Inventory.all, :id,:name, {prompt: "Select an Inventory"}, {class: "form-control"} %>
+    <%= f.collection_select :inventory_id, Inventory.all, :id,:name, {prompt: "Select an Inventory"}, {class: "form-control", required: true} %>
   </p>
   <p>
     <%= f.text_area :description,  class: "form-control", placeholder: "Description"  %>
   </p>
   <p><%= f.submit "Add Product", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>
 <% end %>
+
+<script type="text/javascript">
+ $( "#vehicle_model" ).select2({
+    	theme: "bootstrap",
+    	placeholder: 'Type to Search Vehicle Model...',
+  		allowClear: true,
+    	tags: true,
+    	allowClear: true,
+    	dataType: 'json',
+    	insertTag: function (data, tag) {
+	    	// Insert the tag at the end of the results
+	    	data.push(tag);
+	  	},
+		ajax: {
+			url: '/search/vehicle_model',
+			delay: 250,
+			data: function (params) {
+		      return {
+		        q: params.term, // search term
+		        page: params.page
+		      };
+		    },
+			processResults: function (data, params) {
+				params.page = params.page || 1;
+			    data = JSON.parse(data);
+			    $.each(data, function(idx, val) {
+			        data[idx].text = val.name;
+			    });
+			    return {
+			        results: data,
+			        pagination: {
+			          more: (params.page * 30) < data.total_count
+			        }
+			    };
+			},
+    		cache: true,
+    		escapeMarkup: function (markup) { return markup; },
+    		minimumInputLength: 1,
+     }
+});
+</script>
