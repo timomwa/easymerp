@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   get '/search/:object', to: 'search#search', as: :genericsearch
   get '/sparesandaccessories', to: 'sparesandaccessories#index', as: :sparesandaccessories
   get '/accountingpanel', to: 'accountingpanel#index', as: :accountingpanel
+  get '/products/customer_view', to: 'products#customer_view', as: :customer_view
 
   #get '/admin/deactivateuser', to: 'administration#deactivateuser', as: :deactivateuser
   #get '/new_product', to: 'products#new', as: :new_product

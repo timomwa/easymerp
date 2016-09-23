@@ -4,7 +4,6 @@ class ProductsController < ApplicationController
   #include ActionController::ImplicitRender
   #before_action :all_products, only: [:index, :create]
   #respond_to :html,:js
-
   def index
     @products = Product.paginate(:page => params[:page], :per_page => 5)
   end
@@ -19,14 +18,14 @@ class ProductsController < ApplicationController
   end
 
   def create
-    
+
     @product = Product.new(product_params)
-       if @product.save
-         redirect_to products_url
-       else
-         render :new
-       end
-      
+    if @product.save
+      redirect_to products_url
+    else
+      render :new
+    end
+
   end
 
   def edit
@@ -79,7 +78,7 @@ class ProductsController < ApplicationController
     end
     @product
   end
-    
+
   private
 
   def all_products
@@ -89,6 +88,13 @@ class ProductsController < ApplicationController
     #  format.js
     #  format.js
     #end
+  end
+
+  def customer_view
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
 end

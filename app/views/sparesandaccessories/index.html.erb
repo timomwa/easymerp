@@ -24,7 +24,8 @@
                         <h4>Kes. 00,000.00</h4>
                         <p><%= shortenStr(product.description,30) %></p>
                         <p>
-                            <a href="#" class="btn btn-primary">Buy</a> <a href="#" class="btn btn-default">More Info</a>
+                            <a href="#" class="btn btn-primary">Buy</a> 
+                            <%= link_to 'More Info', customer_view_path,  {:class => 'btn btn-default', :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}  %>
                         </p>
                     </div>
 				</div>
@@ -38,6 +39,7 @@
 		
 		<% end %>
 		
+		<div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 	</div>
 		<%= will_paginate(products, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
 		<%= page_entries_info products %>
