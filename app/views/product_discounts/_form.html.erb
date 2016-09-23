@@ -1,15 +1,13 @@
-<%= form_for @transaction_type do |f| %>
+<%= form_for @product_discount do |f| %>
 	
-	<%= render 'shared/errors', object: @transaction_type %>
+	<%= render 'shared/errors', object: @product_discount %>
   
   <p>
     <%= f.text_field :name,  class: "form-control", placeholder: "Name", required: true %>
   </p>
-  
   <p>
-    <%= f.text_field :trx_code, value: getSeq("TXC"), class: "form-control", placeholder: "Trx Code", required: true, readonly: true %>
+    <%= f.text_field :code, value: getSeq("AC"),  class: "form-control", placeholder: "Ac. Code", required: true %>
   </p>
-  
   <p>
     <%= f.text_area :description, class: "form-control", placeholder: "Description" %>
   </p>

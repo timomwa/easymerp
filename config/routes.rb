@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
-  
-  
+
   #get 'administration/index'
 
- # get 'product/create'
+  # get 'product/create'
 
   root to: 'pages#index', as: :root
   resources :users, only: [:new, :create, :show]
@@ -14,12 +13,16 @@ Rails.application.routes.draw do
   resources :gl_mappings, only: [:index, :new, :create, :update, :show, :destroy]
   resources :vehicle_makes, only: [:index, :new, :create, :update, :show, :destroy]
   resources :vehicle_models, only: [:index, :new, :create, :update, :show, :destroy]
+
+  resources :product_discounts, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :product_pricings, only: [:index, :new, :create, :update, :show, :destroy]
+
   resources :sequences, only: [:index, :new, :create, :update, :show, :destroy]
   resources :general_ledgers, only: [:index, :new, :create, :update, :show, :destroy]
   resources :inventories, only: [:index, :new, :create, :update, :show, :destroy]
   resources :user_sessions, only: [:create, :destroy]
   resources :password_resets, only: [:new, :create, :edit, :update]
-    
+
   delete '/sign_out', to: 'user_sessions#destroy', as: :sign_out
   get '/sign_in', to: 'user_sessions#new', as: :sign_in
   get '/email_sent', to: 'email_sent#index', as: :email_sent
@@ -33,7 +36,7 @@ Rails.application.routes.draw do
   get '/search/:object', to: 'search#search', as: :genericsearch
   get '/sparesandaccessories', to: 'sparesandaccessories#index', as: :sparesandaccessories
   get '/accountingpanel', to: 'accountingpanel#index', as: :accountingpanel
-  
+
   #get '/admin/deactivateuser', to: 'administration#deactivateuser', as: :deactivateuser
   #get '/new_product', to: 'products#new', as: :new_product
   # The priority is based upon order of creation: first created -> highest priority.
@@ -90,5 +93,5 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-  
+
 end

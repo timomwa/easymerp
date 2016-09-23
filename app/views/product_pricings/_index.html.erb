@@ -1,0 +1,33 @@
+<% permitted_to? :manage, :product_pricings do %>
+	<%= link_to 'New Pricing', new_product_pricing_path %>
+
+<table class="table table-hover">
+  <tr>
+    <th>Product</th>
+    <th>Starting</th>
+    <th>Ending</th>
+    <th>Amount</th>
+    <th></th>
+  </tr>
+ 
+  <% @product_pricings.each do |pricing| %>
+    <tr>
+      <td><%= Product.find(pricing.product_id).name %></td>
+      <td><%= pricing.date_from.strftime("%Y %B %d") %></td>
+      <td><%= pricing.date_to.strftime("%Y %B %d") %></td>
+      <td><%= pricing.amount %></td>
+      <% permitted_to? :manage, :product_pricings do %>
+      	<td><%= link_to 'Edit', pricing, method: :get %></td>
+      	<td><%= link_to 'Delete', pricing, method: :delete,
+      	data: { confirm: 'Are you sure you want to the pricing of '+pricing.amount+' for \''+ Product.find(pricing.product_id).name+'\'?' }  %></td>
+      <% end %>
+      
+    </tr>
+  <% end %>
+</table>
+<p>
+<%= will_paginate(@product_pricings, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+<%= page_entries_info @product_pricings %>
+</p>
+
+<% end %>

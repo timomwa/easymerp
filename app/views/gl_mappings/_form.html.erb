@@ -11,5 +11,5 @@
   <p>
     <%= f.collection_select :credit_account_id, Account.all, :id,:name, {prompt: "Select Credit Account"}, {class: "form-control",required: true} %>
   </p>
-  <p><%= f.submit "Create Mapping", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>
+  <p><%= f.submit "Save", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>
 <% end %>

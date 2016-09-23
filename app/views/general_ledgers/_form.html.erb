@@ -14,7 +14,7 @@
   <p>
     <%= f.select :status, AccountingPeriod.statuses.to_a.map { |key, value| [key.humanize, key] },  {prompt: "Select Status"},  {class: "form-control"}  %>
   </p>
-  <p><%= f.submit "Create Period", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>
+  <p><%= f.submit "Save", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>
 <% end %>
 
 <script type="text/javascript">

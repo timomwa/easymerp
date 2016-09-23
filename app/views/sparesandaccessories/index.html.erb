@@ -2,7 +2,7 @@
 	<div class="container hoctransparent">
 		<% counter = 0
 		   count_per_row = 4
-		   products = Product.paginate(:page => params[:page], :per_page => 10)
+		   products = Product.paginate(:page => params[:page], :per_page => 12)
 		 %>
 		<% products.each do |product| %>
 		<% remainder = counter%count_per_row

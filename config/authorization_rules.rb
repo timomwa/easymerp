@@ -8,6 +8,8 @@ authorization do
   role :serviceprovider do
     has_permission_on :accounts, :to => :manage
     has_permission_on :accounting_periods, :to => :manage
+    has_permission_on :product_pricings, :to => :manage
+    has_permission_on :product_discounts, :to => :manage
   end
   role :admin do
     includes :guest
