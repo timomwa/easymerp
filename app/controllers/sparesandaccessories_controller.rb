@@ -1,5 +1,7 @@
 class SparesandaccessoriesController < ApplicationController
+  #respond_to :html, :js
   def index
-    @products = Product.paginate(:page => params[:page], :per_page => 5)
   end
+
+  
 end

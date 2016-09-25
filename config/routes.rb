@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :gl_mappings, only: [:index, :new, :create, :update, :show, :destroy]
   resources :vehicle_makes, only: [:index, :new, :create, :update, :show, :destroy]
   resources :vehicle_models, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :images, only: [:index, :new, :create, :update, :show, :destroy]
 
   resources :product_discounts, only: [:index, :new, :create, :update, :show, :destroy]
   resources :product_pricings, only: [:index, :new, :create, :update, :show, :destroy]
@@ -34,9 +35,8 @@ Rails.application.routes.draw do
   post '/admin/toggleconfirm', to: 'administration#toggleconfirm', as: :toggleconfirm
   get '/gallery', to: 'gallery#index', as: :gallery
   get '/search/:object', to: 'search#search', as: :genericsearch
-  get '/sparesandaccessories', to: 'sparesandaccessories#index', as: :sparesandaccessories
   get '/accountingpanel', to: 'accountingpanel#index', as: :accountingpanel
-  get '/products/customer_view', to: 'products#customer_view', as: :customer_view
+  get '/customer_view', to: 'sparesandaccessories#customer_view', as: :customer_view
 
   #get '/admin/deactivateuser', to: 'administration#deactivateuser', as: :deactivateuser
   #get '/new_product', to: 'products#new', as: :new_product

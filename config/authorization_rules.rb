@@ -10,6 +10,7 @@ authorization do
     has_permission_on :accounting_periods, :to => :manage
     has_permission_on :product_pricings, :to => :manage
     has_permission_on :product_discounts, :to => :manage
+    has_permission_on :images, :to => :manage
   end
   role :admin do
     includes :guest

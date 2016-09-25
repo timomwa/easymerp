@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923095529) do
+ActiveRecord::Schema.define(version: 20160924115011) do
 
   create_table "account_balances", force: :cascade do |t|
     t.integer "account_id",           limit: 4
@@ -71,6 +71,22 @@ ActiveRecord::Schema.define(version: 20160923095529) do
   add_index "gl_mappings", ["credit_account_id"], name: "fk_rails_5092de7b19", using: :btree
   add_index "gl_mappings", ["debit_account_id"], name: "fk_rails_f075530971", using: :btree
   add_index "gl_mappings", ["transaction_type_id", "debit_account_id", "credit_account_id"], name: "typedrcridx", unique: true, using: :btree
+
+  create_table "images", force: :cascade do |t|
+    t.integer  "product_id", limit: 4,                   null: false
+    t.string   "avatar",     limit: 255
+    t.integer  "owner_type", limit: 2,   default: 0,     null: false
+    t.boolean  "active"
+    t.boolean  "defaultimg",             default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "images", ["active"], name: "imgactvidx", using: :btree
+  add_index "images", ["defaultimg"], name: "imgdeftimgidx", using: :btree
+  add_index "images", ["owner_type"], name: "imgtpeidx", using: :btree
+  add_index "images", ["product_id", "owner_type", "active", "defaultimg"], name: "imguniqcstridx", unique: true, using: :btree
+  add_index "images", ["product_id"], name: "imgprdidx", using: :btree
 
   create_table "inventories", force: :cascade do |t|
     t.string   "name",       limit: 255, null: false
@@ -207,6 +223,7 @@ ActiveRecord::Schema.define(version: 20160923095529) do
   add_foreign_key "gl_mappings", "accounts", column: "credit_account_id"
   add_foreign_key "gl_mappings", "accounts", column: "debit_account_id"
   add_foreign_key "gl_mappings", "transaction_types"
+  add_foreign_key "images", "products"
   add_foreign_key "inventory_products", "inventories"
   add_foreign_key "inventory_products", "products"
   add_foreign_key "product_discounts", "products"
