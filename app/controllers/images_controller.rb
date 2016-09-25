@@ -30,7 +30,8 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       if @image.save
-        format.html { redirect_to @image, notice: 'Image was successfully created.' }
+        flash[:success] = 'Image was successfully saved.'
+        format.html { redirect_to @image }
         format.json { render :show, status: :created, location: @image }
       else
         format.html { render :new }
@@ -45,7 +46,8 @@ class ImagesController < ApplicationController
     @image = Image.find(params[:id])
     respond_to do |format|
       if @image.update(post_attachment_params)
-        format.html { redirect_to @image, notice: 'Image was successfully updated.' }
+        flash[:success] = 'Image was successfully updated.'
+        format.html { redirect_to @image}
         format.json { render :show, status: :ok, location: @image }
       else
         format.html { render :edit }
@@ -60,13 +62,14 @@ class ImagesController < ApplicationController
     @image = Image.find(params[:id])
     @image.destroy
     respond_to do |format|
-      format.html { redirect_to Product.find(@image.product_id), notice: 'Image was successfully destroyed.' }
+      flash[:success] = 'Image was successfully deleted.'
+      format.html { redirect_to Product.find(@image.product_id) }
       format.json { head :no_content }
     end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_attachment_params
-    params.require(:post_attachment).permit(:post_id, :avatar)
+    params.require(:product).permit(:product_id, :avatar)
   end
 end

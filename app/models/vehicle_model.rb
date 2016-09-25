@@ -1,6 +1,6 @@
 class VehicleModel < ActiveRecord::Base
   belongs_to :vehicle_make
-  has_many :products
+  has_and_belongs_to_many :products
   attr_reader :vehicle_make
   attr_writer :vehicle_make
     

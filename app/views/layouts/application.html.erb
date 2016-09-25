@@ -1,12 +1,18 @@
 <%= render 'layouts/topnavbar' %>
-	<%= render 'shared/flash' %>	
+		
 	
 	<div class="panel-body hocwhite">
 		
 		<div class="col-xs col-sm col-lg" >
 		
-		
-			<%= yield %>
+			<div class="hoctransparent hocwhite">
+				<div class="container hoctransparent">
+					<%= render 'shared/flash' %>
+					<%= yield %>
+				</div>
+			</div>
+			
+			
 		</div>
 		
   	</div>

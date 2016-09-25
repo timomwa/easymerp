@@ -5,7 +5,6 @@ class ProductsController < ApplicationController
   #before_action :all_products, only: [:index, :create]
   #respond_to :html,:js
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-  
 
   def index
     @products = Product.paginate(:page => params[:page], :per_page => 5)
@@ -15,25 +14,11 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @product = populate_product_inventory
     @images = @product.images
-
-    already_uploaded = @images.size
-
-    if(already_uploaded<4)
-      bal = 4 - already_uploaded
-      for i in 0..(bal-1)
-        @product.images << Image.new
-      end
-    end
   end
 
   def new
     @product = Product.new
     @product.images.build
-
-    for i in 0..(4-1)
-      @product.images << Image.new
-    end
-    #@images = @product.images.build
   end
 
   def create
@@ -44,7 +29,7 @@ class ProductsController < ApplicationController
         @image = @product.images.create!(:avatar => a, :product_id => @product.id)
       end
       @product = add_product_to_inventory
-      redirect_to products_url
+      redirect_to @product
     else
       render :new
     end
@@ -55,25 +40,19 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @product = populate_product_inventory
     @images = @product.images
-
-    already_uploaded = @images.size
-    if(already_uploaded<4)
-      bal = 4 - already_uploaded
-      for i in 0..(bal-1)
-        @product.images << Image.new
-      end
-    end
   end
 
   def update
     @product = Product.find(params[:id])
     if @product.update_attributes(product_params)
-      params[:images]['avatar'].each do |a|
-        @image = @product.images.create!(:avatar => a, :product_id => @product.id)
+      if(!params[:images].nil? && !params[:images]['avatar'].nil?)
+        params[:images]['avatar'].each do |a|
+          @image = @product.images.create!(:avatar => a, :product_id => @product.id)
+        end
       end
       @product = add_product_to_inventory
       flash[:success] = "Product SKU  #{@product.sku}  successfully updated!"
-      redirect_to products_url
+      redirect_to @product
     else
       render :edit
     end
@@ -89,7 +68,7 @@ class ProductsController < ApplicationController
 
   def add_product_to_inventory
     inventory_id = params[:product][:inventory_id]
-      
+
     inventory = Inventory.find(inventory_id)
     inventoryproduct = InventoryProduct.find_by(product: @product)#, inventory: inventory)
 
@@ -107,14 +86,12 @@ class ProductsController < ApplicationController
   private
 
   def populate_product_inventory
-    
-      
+
     inventoryproduct = InventoryProduct.find_by(product: @product)
     if(!inventoryproduct.nil?)
       @inventory = inventoryproduct.inventory
       @product.inventory_id = @inventory.id
     end
-    logger.info " \n\n\n\n\n\t\t product.inventory_id  : "+ inventoryproduct.id.to_s + "\n\n"
     @product
   end
 
