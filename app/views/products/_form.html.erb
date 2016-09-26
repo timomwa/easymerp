@@ -3,12 +3,10 @@
 	<%= render 'shared/errors', object: @product %>  
 
   <p>
-    <% prev_selected = VehicleMake.find_by_model_id(@product.vehicle_model_id)
-    	if(prev_selected.nil?)
-    		prev_selected = []
-    	end
-     %>
-    <%= f.collection_select :vehicle_models, prev_selected , :id,:name, {}, {required: 'true', autofocus: 'true', class: 'form-control', id: 'vehicle_model'} %>
+    <%  
+       #vehicle_models = @product.vehicle_models
+      %>
+    <%= f.collection_select :vehicle_models, [] , :id,:text, {}, {:multiple => true,  autofocus: 'true', class: 'form-control myselectss', id: 'vehicle_model', "data-tags" => "true"} %>
   </p>
    <p>
     <%= f.text_field :name,  class: "form-control", placeholder: "Product Name", required: true %>
@@ -72,23 +70,47 @@
 <% end %> 
 
 <script type="text/javascript">
- $( "#vehicle_model" ).select2({
+product_id = ("<%= @product.id %>");
+ var x = $( '.myselectss' ).select2({
     	theme: "bootstrap",
     	placeholder: 'Type to Search Vehicle Model...',
-  		allowClear: true,
+  		allowClear: false,
     	tags: true,
+    	vehicle_models: [],
     	multiple: true,
-    	allowClear: false,
-    	dataType: 'json',
-    	createSearchChoice: function (term, data){
-    		console.log(data);
-    		console.log(term);
-    	},
-    	insertTag: function (data, tag) {
-	    	// Insert the tag at the end of the results
-	    	//data.push(tag);
-	  	},
-		ajax: {
+    	initSelection: function(element, callback) {
+    		//console.log("we've called init!");
+    		$.ajax({
+    			url: '/search/vehicle_model?product_id='+product_id, 
+		        dataType: 'json', 
+    			data: function (params) {
+			      return {
+			        product_id: product_id
+			      };
+			    }/*,
+			    cache: false,
+	    		escapeMarkup: function (markup) { 
+	    			return markup; 
+	    		}*/
+			}).done(function(data) { 
+					$.each(data, function(idx, val) {
+					
+				        data[idx].text = val.name;
+				        $('#vehicle_model').append(
+				        	$('<option>', { 
+					        	value: val.id,
+					        	text : val.text 
+					    	})
+					    );
+				        $('select#vehicle_model option[value='+val.id+']').attr('selected','selected');
+				        
+				        //$(".select2-selection__choice__remove").click(function (e) { alert('hi'); }); 
+				    });
+		            callback(data);
+		      });
+    		//callback({"id": 5, "text":"myValue"});
+    	}, 
+    	ajax: {
 			url: '/search/vehicle_model',
 			delay: 250,
 			data: function (params) {
@@ -108,13 +130,18 @@
 			        pagination: {
 			          more: (params.page * 30) < data.total_count
 			        }
-			    };
-			},
-    		cache: true,
-    		escapeMarkup: function (markup) { 
-    			return markup; 
-    		},
-    		minimumInputLength: 2,
-     }
+				}
+			}
+		},	
+    	createSearchChoice: function (term, data){
+    		console.log(data);
+    		console.log(term);
+    	},
+    	insertTag: function (data, tag) {
+	    	// Insert the tag at the end of the results
+	    	//data.push(tag);
+	  	}
 });
+
+
 </script>

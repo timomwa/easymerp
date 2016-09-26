@@ -3,19 +3,21 @@ class SearchController < ApplicationController
   end
 
   def search
+    logger.info "\n\n\t params ----> \n\n"+params.to_s+"\n\n"
     term = params[:term]
     type = params[:_type]
     q = params[:q]
     object = params[:object]
 
     if(!object.nil? && object == "vehicle_model")
-      @vehicle_makes = VehicleMake.find_by_model_name q;
-      total_count = 0
+      product_id = params[:product_id]
+      @vehicle_makes =!q.nil? ? (VehicleMake.find_by_model_name q) : nil;
+      #total_count = 0
       if(@vehicle_makes.nil?)
-        @vehicle_makes = []
+        @vehicle_makes = !product_id.nil? ? (ProductsVehicleModels.find_by_productid product_id) : []
       end
       respond_to do |format|
-        format.js   { render :json => @vehicle_makes, :total_count => total_count }
+        format.js   { render :json => @vehicle_makes }
       end
     end
 

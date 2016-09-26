@@ -14,21 +14,51 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @product = populate_product_inventory
     @images = @product.images
+    @product.vehicle_models  = ProductsVehicleModels.find_by(product: @product)
   end
 
   def new
     @product = Product.new
     @product.images.build
+    @product.vehicle_models = []
   end
 
   def create
 
     @product = Product.new(product_params)
     if @product.save
-      params[:images]['avatar'].each do |a|
-        @image = @product.images.create!(:avatar => a, :product_id => @product.id)
+      if(!params[:images].nil? && !params[:images]['avatar'].nil?)
+        params[:images]['avatar'].each do |a|
+          @image = @product.images.create!(:avatar => a, :product_id => @product.id)
+        end
       end
+
+      if(!params[:product].nil? && !params[:product]['vehicle_models'].nil?)
+        cleanvms = params[:product]['vehicle_models']  - ["NULL"]
+        cleanvms = cleanvms.reject { |c| c.empty? }
+        ProductsVehicleModels.where(product: @product).where.not(vehicle_model_id: cleanvms).delete_all;
+        cleanvms.each do |vm|
+          if(!vm.nil? & !vm.empty?)
+            vehicle_model = VehicleModel.find(vm)
+            mapping  = ProductsVehicleModels.find_by(product: @product, vehicle_model: vehicle_model)
+            if(mapping.nil?)
+              @product_vehicle_model = ProductsVehicleModels.new
+              @product_vehicle_model.product = @product
+              @product_vehicle_model.vehicle_model  = vehicle_model
+              @product_vehicle_model.save!
+            end
+          end
+        end
+      end
+
+      if(!params[:vehicle_models].nil?)
+        params[:images]['vehicle_models'].each do |vm|
+          @vehicle_model = @product.vehicle_models.create!(:product => @product, :vehicle_model => vm)
+        end
+      end
+
       @product = add_product_to_inventory
+      flash[:info] = "Product saved successfully."
       redirect_to @product
     else
       render :new
@@ -40,6 +70,7 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @product = populate_product_inventory
     @images = @product.images
+    @product.vehicle_models = ProductsVehicleModels.find_by_productid @product.id
   end
 
   def update
@@ -50,6 +81,25 @@ class ProductsController < ApplicationController
           @image = @product.images.create!(:avatar => a, :product_id => @product.id)
         end
       end
+
+      if(!params[:product].nil? && !params[:product]['vehicle_models'].compact.nil?)
+        cleanvms = params[:product]['vehicle_models']  - ["NULL"]
+        cleanvms = cleanvms.reject { |c| c.empty? }
+        ProductsVehicleModels.where(product: @product).where.not(vehicle_model_id: cleanvms).delete_all;
+        cleanvms.each do |vm|
+          if(!vm.nil? & !vm.empty?)
+            vehicle_model = VehicleModel.find(vm)
+            mapping  = ProductsVehicleModels.find_by(product: @product, vehicle_model: vehicle_model)
+            if(mapping.nil?)
+              @product_vehicle_model = ProductsVehicleModels.new
+              @product_vehicle_model.product = @product
+              @product_vehicle_model.vehicle_model  = vehicle_model
+              @product_vehicle_model.save!
+            end
+          end
+        end
+      end
+
       @product = add_product_to_inventory
       flash[:success] = "Product SKU  #{@product.sku}  successfully updated!"
       redirect_to @product

@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem "select2-rails"
 gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',
                               :git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
+gem 'acts-as-taggable-on', '~> 4.0'
 gem 'bootstrap-modal-rails'
 gem 'carrierwave', '~> 0.10.0'
 gem 'mini_magick', '~> 4.3'
