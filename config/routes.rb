@@ -37,7 +37,9 @@ Rails.application.routes.draw do
   get '/search/:object', to: 'search#search', as: :genericsearch
   get '/accountingpanel', to: 'accountingpanel#index', as: :accountingpanel
   get '/customer_view', to: 'sparesandaccessories#customer_view', as: :customer_view
-
+  delete '/delete_pricing/:id', to: 'products#delete_pricing', as: :delete_pricing
+  patch '/toggle_discount_active/:id', to: 'products#toggle_discount_active', as: :toggle_discount_active
+  delete '/delete_discount/:id', to: 'products#delete_discount', as: :delete_discount
   #get '/admin/deactivateuser', to: 'administration#deactivateuser', as: :deactivateuser
   #get '/new_product', to: 'products#new', as: :new_product
   # The priority is based upon order of creation: first created -> highest priority.

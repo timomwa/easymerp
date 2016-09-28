@@ -1,22 +1,22 @@
 class ProductDiscountsController < ApplicationController
   def index
-    @product_discounts = ProductDiscounts.paginate(:page => params[:page], :per_page => 10)
+    @product_discounts = ProductDiscount.paginate(:page => params[:page], :per_page => 10)
   end
 
   def show
-    @product_discount = ProductDiscounts.find(params[:id])
+    @product_discount = ProductDiscount.find(params[:id])
   end
 
   def new
-    @product_discount = ProductDiscounts.new
+    @product_discount = ProductDiscount.new
   end
 
   def edit
-    @product_discount = ProductDiscounts.find(params[:id])
+    @product_discount = ProductDiscount.find(params[:id])
   end
 
   def create
-    @product_discount = ProductDiscounts.new(account_params)
+    @product_discount = ProductDiscount.new(account_params)
     if @product_discount.save
       flash[:info] = "Product Discount created."
       redirect_to product_discounts_url
@@ -26,7 +26,7 @@ class ProductDiscountsController < ApplicationController
   end
 
   def update
-    @product_discount = ProductDiscounts.find(params[:id])
+    @product_discount = ProductDiscount.find(params[:id])
     if @product_discount.update_attributes(account_params)
       flash[:success] = "Product Discount successfully updated!"
       redirect_to product_discounts_url
@@ -36,7 +36,7 @@ class ProductDiscountsController < ApplicationController
   end
 
   def destroy
-    @product_discount = ProductDiscounts.find(params[:id])
+    @product_discount = ProductDiscount.find(params[:id])
     if @product_discount
       @product_discount.destroy
     end

@@ -1,0 +1,49 @@
+
+  	<h2><a href="#pricings" class="btn btn-info" data-toggle="collapse"><span class="glyphicon glyphicon-plus"></span> Add Pricing to Product</a></h2>
+	
+	<div  id="pricings"  class="collapse panel panel-primary hoctransparent p5">	
+  	
+  	<p>
+  		<div class="panel-heading">Product Pricing</div>
+  	</p>
+  	
+  	<%= f.fields_for :product_pricings do |pp| %>
+  		<p>
+  			<%= pp.number_field :amount,  class: "form-control", placeholder: "Initial Price"  %>
+  		</p>
+  		<p>
+  			<%= pp.text_field :date_from, class: "datepicker_to1 form-control", placeholder: "Price Active From", "data-date-format" => "yyyy-mm-dd 00:00:00"  %>
+  		</p>
+  		<p>
+  			<%= pp.text_field :date_to, class: "datepicker_to2 form-control", placeholder: "Till", "data-date-format" => "yyyy-mm-dd 23:59:59"  %>
+  		</p>
+  	<% end %>
+  	
+  	
+  	<table class="table">
+	  <tr>
+	    <th>Price</th>
+	    <th>Active from</th>
+	    <th>Active to</th>
+	    <% permitted_to? :manage, :products do %>
+	    	<th></th>
+	    <% end %>
+	  </tr>
+	  <tbody>
+  		<% @product.product_pricings.each do |pp| %>
+	  		<% if(!pp.id.nil?) %>
+	  			<tr>
+		  			<td ><%= number_with_precision(pp.amount, :precision => 2, :delimiter => ',') %></td>
+		  			<td><%= pp.date_from.strftime("%Y %B %d") %></td>
+		  			<td><%= pp.date_to.strftime("%Y %B %d") %></td>
+		  			<% permitted_to? :manage, :products do %>
+		  			<td><%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, delete_pricing_url(:id => pp.id,:page => params[:page]), method: :delete,
+		      		data: { confirm: 'Are you sure you want to  delete the pricing \''+number_with_precision(pp.amount, :precision => 2, :delimiter => ',')+'\', for \''+@product.name+'\'?'} %></td>
+				     <% end %>
+				    <% end %>
+	  			</tr>
+  		<% end %>
+  		</tbody>
+  	</table>
+  	
+  	</div>

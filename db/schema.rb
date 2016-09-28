@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926143509) do
+ActiveRecord::Schema.define(version: 20160928145014) do
 
   create_table "account_balances", force: :cascade do |t|
     t.integer "account_id",           limit: 4
@@ -103,19 +103,19 @@ ActiveRecord::Schema.define(version: 20160926143509) do
   add_index "inventory_products", ["product_id"], name: "fk_rails_b27370d0a4", using: :btree
 
   create_table "product_discounts", force: :cascade do |t|
-    t.integer  "product_id", limit: 4,                                          null: false
-    t.integer  "type",       limit: 2,                          default: 0,     null: false
-    t.decimal  "percent",              precision: 35, scale: 5
+    t.integer  "product_id",    limit: 4,                                          null: false
+    t.integer  "discount_type", limit: 2,                          default: 0,     null: false
+    t.decimal  "percent",                 precision: 35, scale: 5
     t.datetime "date_from"
     t.datetime "date_to"
-    t.boolean  "active",                                        default: false
+    t.boolean  "active",                                           default: false
   end
 
   add_index "product_discounts", ["date_from"], name: "pddtfrmidx", using: :btree
   add_index "product_discounts", ["date_to"], name: "pddttoidx", using: :btree
-  add_index "product_discounts", ["product_id", "date_from", "date_to", "type"], name: "discntsidx", unique: true, using: :btree
+  add_index "product_discounts", ["discount_type"], name: "pdtpidx", using: :btree
+  add_index "product_discounts", ["product_id", "date_from", "date_to", "discount_type"], name: "discntsidx", unique: true, using: :btree
   add_index "product_discounts", ["product_id"], name: "pdprodctidx", using: :btree
-  add_index "product_discounts", ["type"], name: "pdtpidx", using: :btree
 
   create_table "product_pricings", force: :cascade do |t|
     t.integer  "product_id", limit: 4,                          null: false
@@ -131,15 +131,14 @@ ActiveRecord::Schema.define(version: 20160926143509) do
 
   create_table "products", force: :cascade do |t|
     t.string   "name",        limit: 255
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.string   "sku",         limit: 255,   default: "SKU01", null: false
-    t.integer  "count",       limit: 4,     default: 0,       null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "count",       limit: 4,     default: 0, null: false
     t.text     "description", limit: 65535
+    t.string   "sku",         limit: 255,               null: false
   end
 
   add_index "products", ["name"], name: "index_products_on_name", using: :btree
-  add_index "products", ["sku"], name: "index_products_on_sku", unique: true, using: :btree
 
   create_table "products_vehicle_models", force: :cascade do |t|
     t.integer "product_id",       limit: 4, null: false

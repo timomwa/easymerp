@@ -1,10 +1,12 @@
+<h1 class="hocheaders">Product Details</h1>
+
 <%= form_for @product, :html => { :multipart => true } do |f| %>
 	
 	<%= render 'shared/errors', object: @product %>  
 
   <p>
     <%  
-       #vehicle_models = @product.vehicle_models
+       gen_sku = getSeq("SKU")
       %>
     <%= f.collection_select :vehicle_models, [] , :id,:text, {}, {:multiple => true,  autofocus: 'true', class: 'form-control myselectss', id: 'vehicle_model', "data-tags" => "true"} %>
   </p>
@@ -12,7 +14,7 @@
     <%= f.text_field :name,  class: "form-control", placeholder: "Product Name", required: true %>
   </p>
   <p>
-    <%= f.text_field :sku, value: getSeq("SKU"),  class: "form-control", placeholder: "SKU", readonly: true  %>
+    <%= f.text_field :sku, value: ( (@product.sku.nil? || @product.sku.empty?)  ? gen_sku : @product.sku),  class: "form-control", placeholder: "SKU", readonly: true  %>
   </p>
   <p>
     <%= f.number_field :count,  class: "form-control", placeholder: "Initial Quantity"  %>
@@ -28,11 +30,21 @@
   <p>
     <%= f.file_field :avatar, name: "images[avatar][]", :multiple => true, class: "form-control", placeholder: "Add images"  %>
   </p>
+  
+  <p>
+  	<%= render 'pricings', f: f, product: @product  %>
+  </p>
+  
+  <p>
+  	<%= render 'discounts', f: f, product: @product  %>
+  	
+  </p>
+  
   <p><%= f.submit "Save", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>
 <% end %>
 
 
-<h1 class="hocheader"> Images </h1>
+<h1 class="hocheaders">Images</h1>
 
 <% if(!@images.nil? && @images.respond_to?(:each)) %>
 	<% counter = 0
@@ -70,6 +82,11 @@
 <% end %> 
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+    $('.datepicker_to1').datepicker();
+    $('.datepicker_to2').datepicker();
+  });
 product_id = ("<%= @product.id %>");
  var x = $( '.myselectss' ).select2({
     	theme: "bootstrap",

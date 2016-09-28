@@ -20,6 +20,8 @@ class ProductsController < ApplicationController
   def new
     @product = Product.new
     @product.images.build
+    @product.product_pricings.build
+    @product.product_discounts.build
     @product.vehicle_models = []
   end
 
@@ -27,37 +29,7 @@ class ProductsController < ApplicationController
 
     @product = Product.new(product_params)
     if @product.save
-      if(!params[:images].nil? && !params[:images]['avatar'].nil?)
-        params[:images]['avatar'].each do |a|
-          @image = @product.images.create!(:avatar => a, :product_id => @product.id)
-        end
-      end
-
-      if(!params[:product].nil? && !params[:product]['vehicle_models'].nil?)
-        cleanvms = params[:product]['vehicle_models']  - ["NULL"]
-        cleanvms = cleanvms.reject { |c| c.empty? }
-        ProductsVehicleModels.where(product: @product).where.not(vehicle_model_id: cleanvms).delete_all;
-        cleanvms.each do |vm|
-          if(!vm.nil? & !vm.empty?)
-            vehicle_model = VehicleModel.find(vm)
-            mapping  = ProductsVehicleModels.find_by(product: @product, vehicle_model: vehicle_model)
-            if(mapping.nil?)
-              @product_vehicle_model = ProductsVehicleModels.new
-              @product_vehicle_model.product = @product
-              @product_vehicle_model.vehicle_model  = vehicle_model
-              @product_vehicle_model.save!
-            end
-          end
-        end
-      end
-
-      if(!params[:vehicle_models].nil?)
-        params[:images]['vehicle_models'].each do |vm|
-          @vehicle_model = @product.vehicle_models.create!(:product => @product, :vehicle_model => vm)
-        end
-      end
-
-      @product = add_product_to_inventory
+      extract_extra_attribs
       flash[:info] = "Product saved successfully."
       redirect_to @product
     else
@@ -76,36 +48,36 @@ class ProductsController < ApplicationController
   def update
     @product = Product.find(params[:id])
     if @product.update_attributes(product_params)
-      if(!params[:images].nil? && !params[:images]['avatar'].nil?)
-        params[:images]['avatar'].each do |a|
-          @image = @product.images.create!(:avatar => a, :product_id => @product.id)
-        end
-      end
 
-      if(!params[:product].nil? && !params[:product]['vehicle_models'].compact.nil?)
-        cleanvms = params[:product]['vehicle_models']  - ["NULL"]
-        cleanvms = cleanvms.reject { |c| c.empty? }
-        ProductsVehicleModels.where(product: @product).where.not(vehicle_model_id: cleanvms).delete_all;
-        cleanvms.each do |vm|
-          if(!vm.nil? & !vm.empty?)
-            vehicle_model = VehicleModel.find(vm)
-            mapping  = ProductsVehicleModels.find_by(product: @product, vehicle_model: vehicle_model)
-            if(mapping.nil?)
-              @product_vehicle_model = ProductsVehicleModels.new
-              @product_vehicle_model.product = @product
-              @product_vehicle_model.vehicle_model  = vehicle_model
-              @product_vehicle_model.save!
-            end
-          end
-        end
-      end
+      extract_extra_attribs
 
-      @product = add_product_to_inventory
       flash[:success] = "Product SKU  #{@product.sku}  successfully updated!"
       redirect_to @product
     else
       render :edit
     end
+  end
+
+  def delete_pricing
+    pricing = ProductPricing.find(params[:id]);
+    product = pricing.product
+    pricing.delete
+    redirect_to product
+  end
+  
+  def toggle_discount_active
+    discount = ProductDiscount.find(params[:id]);
+    discount.active  = !discount.active
+    product = discount.product
+    discount.save
+    redirect_to product
+  end
+  
+  def delete_discount
+    discount = ProductDiscount.find(params[:id]);
+    product = discount.product
+    discount.delete
+    redirect_to product
   end
 
   private
@@ -130,7 +102,7 @@ class ProductsController < ApplicationController
     inventoryproduct.inventory = inventory
     inventoryproduct.save
 
-    inventoryproduct.product
+    @product = inventoryproduct.product
   end
 
   private
@@ -155,11 +127,70 @@ class ProductsController < ApplicationController
 
   def all_products
     @products = Product.paginate(:page => params[:page], :per_page => 5)
-    #respond_to do |format|
-    #  format.html
-    #  format.js
-    #  format.js
-    #end
   end
 
+  private
+
+  def extract_extra_attribs
+
+    if(!params[:images].nil? && !params[:images]['avatar'].nil?)
+      params[:images]['avatar'].each do |a|
+        @image = @product.images.create!(:avatar => a, :product_id => @product.id)
+      end
+    end
+
+    if(!params[:product].nil? && !params[:product]['vehicle_models'].nil?)
+      cleanvms = params[:product]['vehicle_models']  - ["NULL"]
+      cleanvms = cleanvms.reject { |c| c.empty? }
+      ProductsVehicleModels.where(product: @product).where.not(vehicle_model_id: cleanvms).delete_all;
+      cleanvms.each do |vm|
+        if(!vm.nil? & !vm.empty?)
+          vehicle_model = VehicleModel.find(vm)
+          mapping  = ProductsVehicleModels.find_by(product: @product, vehicle_model: vehicle_model)
+          if(mapping.nil?)
+            @product_vehicle_model = ProductsVehicleModels.new
+            @product_vehicle_model.product = @product
+            @product_vehicle_model.vehicle_model  = vehicle_model
+            @product_vehicle_model.save!
+          end
+        end
+      end
+    end
+
+    if(!params[:product].nil? && !params[:product]['product_pricings'].nil?)
+      date_from = params[:product]['product_pricings']['date_from']
+      date_to = params[:product]['product_pricings']['date_to']
+      if(!date_from.nil? && !date_from.nil? && !date_from.empty? && !date_from.empty?)
+        product_pricing = ProductPricing.new
+        product_pricing.amount = params[:product]['product_pricings']['amount']
+        product_pricing.date_from = params[:product]['product_pricings']['date_from']
+        product_pricing.date_to = params[:product]['product_pricings']['date_to']
+        product_pricing.product = @product
+        product_pricing.save!
+      end
+    end
+
+    if(!params[:product].nil? && !params[:product]['product_discounts'].nil?)
+      date_from = params[:product]['product_discounts']['date_from']
+      date_to = params[:product]['product_discounts']['date_to']
+      if(!date_from.nil? && !date_from.nil? && !date_from.empty? && !date_from.empty?)
+        product_discount = ProductDiscount.new
+        product_discount.percent = params[:product]['product_discounts']['percent']
+        product_discount.date_from = params[:product]['product_discounts']['date_from']
+        product_discount.date_to = params[:product]['product_discounts']['date_to']
+        product_discount.active = params[:product]['product_discounts']['active']
+        product_discount.discount_type = params[:product]['product_discounts']['discount_type']
+        product_discount.product = @product
+        product_discount.save!
+      end
+    end
+
+    if(!params[:vehicle_models].nil?)
+      params[:images]['vehicle_models'].each do |vm|
+        @vehicle_model = @product.vehicle_models.create!(:product => @product, :vehicle_model => vm)
+      end
+    end
+
+    @product = add_product_to_inventory
+  end
 end

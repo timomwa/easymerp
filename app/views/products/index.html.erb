@@ -20,7 +20,7 @@
       <td><%= product.name %></td>
       <td><%= product.count %></td>
       <% permitted_to? :manage, :products do %>
-      	<td><%= link_to 'Edit', product, method: :get %></td>
+      	<td><%= link_to 'Edit', product_url(:id => product.id, :page => params[:page]), method: :get %></td>
       <% end %>
   
     </tr>
