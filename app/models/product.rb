@@ -14,4 +14,8 @@ class Product < ActiveRecord::Base
   attr_reader :vehicle_models
   attr_writer :vehicle_models
   
+  def self.getDefaultImage
+    Image.findDefaultImage(self.id)
+  end
+  
 end

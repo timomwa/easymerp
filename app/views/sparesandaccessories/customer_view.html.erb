@@ -8,6 +8,16 @@
 		<% remainder = counter%count_per_row
 		   new_row = remainder==0
 		   counter = counter+1
+		   pricing = getActivePricing(product)
+		   itemprice = pricing.nil? ? "Ask for price" : "Kes. "+number_with_precision(pricing.amount, :precision => 2, :delimiter => ',')
+		   
+		   avatar  = getProductDefaultAvatar(product)
+		   default_image_url = 'missing_image.png'
+		   default_image_thumb_url = 'missing_image.png'
+		   if(!avatar.nil?)
+		   	default_image_url = avatar.url
+		   	default_image_thumb_url = avatar.thumb.url
+		   end
 		 %>  
 		 
 		 
@@ -15,13 +25,15 @@
 		      <div class="row">
 		<%  end %>
 		
-			<div class="col-sm-3 col-xs-3">
+			<div class="col-sm-3 col-xs-3" >
 				<div class="thumbnail">
-					
-					<%= link_to image_tag('safari-pinned-tab.svg', height: '60', alt: 'product_image_coming_soon'), customer_view_path(:product_id => product.id),  { :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#myModal'}  %>
+					<div class="thumb" style="overflow:hidden; position:relative; min-height: 50px; max-height: 150px;" >
+						<%= link_to image_tag(default_image_url, :class=> "img-responsive", :style => "vertical-align: middle;  float: none;", alt: 'product_image_coming_soon'), customer_view_path(:product_id => product.id),  { :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#myModal'}  %>
+                    </div>
                     <div class="caption">
-                    	<h3><%= shortenStr(product.name,10) %></h3>
-                        <h4>Kes. 00,000.00</h4>
+                    	<h4><%= shortenStr(product.name,10) %></h4>
+                    	
+                        <h4><%= itemprice %></h4>
                         <p><%= shortenStr(product.description,30) %></p>
                         <p>
                             <a href="#" class="btn btn-primary">Buy</a> 
@@ -41,11 +53,11 @@
 		
 	</div>
 			
-		<%= will_paginate(products, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
-		<%= page_entries_info products %>
+		
 		
 </div>
-
+<%= will_paginate(products, :previous_label => "&laquo;", :next_label => "&raquo;", :class=>"small-font", :outer_window => 1, :inner_window => 0, :class=>"small-font", :outer_window => 1, :inner_window => 0) %>
+		<%= page_entries_info products %>
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog"></div>
