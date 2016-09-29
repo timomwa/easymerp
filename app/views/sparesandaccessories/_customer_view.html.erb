@@ -1,16 +1,92 @@
-<% product = Product.find(params[:product_id]) %>
-<div class="modal-dialog">
+<% product = Product.find(params[:product_id])
+
+		   discount_type = ProductDiscount.discount_types['GENERAL_PUBLIC']
+		   
+		   if current_user 
+		   	discount_type = ProductDiscount.discount_types['MEMBERS_ONLY']
+		   end
+		   
+		   discount_applicable = findActiveProductDiscount(product.id,discount_type)
+		   
+		   pricing = findActiveProductPricing(product.id)
+		   
+		   if(!discount_applicable.nil? && !discount_applicable.percent.nil?)
+		    discountpercentage = discount_applicable.percent;
+		    percent_discount = 1 - (discountpercentage/100);
+		   	price_after_discount = (pricing.amount * percent_discount)
+		   	discount = number_with_precision((pricing.amount-price_after_discount), :precision => 2, :delimiter => ',')
+		   	price_display = "<small class='text-danger'><del>Kes. "+number_with_precision(pricing.amount, :precision => 2, :delimiter => ',')+"</small></del> <small class='text-success'>Kes. "+number_with_precision(price_after_discount, :precision => 2, :delimiter => ',')+ "</small>"
+		   	itemprice = pricing.nil? ? "Ask for price" : price_display
+		   elsif
+		   	itemprice = "<small class='text-primary'>"+(pricing.nil? ? "Ask for price" : "Kes. "+number_with_precision(pricing.amount, :precision => 2, :delimiter => ','))+"</small><br/>&nbsp;"
+		   end
+		   
+		   product_vehicle_models = getProductVehicleModels(product.id)
+		   
+		    %>
+<div class="modal-dialog modal-sm modal-lg">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"><%= product.name %> - Kes. 00,000.00</h4>
+        <a href="#" class="btn btn-primary">Buy</a>
+        <h1 class="modal-title"><%= product.name %> -  <%= itemprice.html_safe %> </h1>
       </div>
+      
+      
       <div class="modal-body">
-        <p><%= product.description %></p>
-      </div>
+      
+      	<div class="container">
+	      	 <div class="row">
+	      	   		<div class="col-xs-9 col-sm-4 col-md-9 col-lg-9">
+					    <div class="thumbnail">
+					    	<%= render 'carousel', discount: discount, discountpercentage: discountpercentage, product: product %>
+					    </div>
+					</div>
+			 </div>
+	        
+		     <div class="row">
+		        	<div class="col-xs-9 col-sm-4 col-md-9 col-lg-9">
+		        		<h2>Description</h2>
+				        <div class="thumbnail">
+				        	<%= product.description %>
+				        </div>
+				        
+				        
+				        <h3>Compatible Vehicle models</h3>
+				        
+				        	<% if(!product_vehicle_models.nil?)  %>
+					        	<span class="select2 select2-container select2-container--bootstrap" dir="ltr" style="width: auto;">
+									<span class="selection">
+										<span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1">
+											<br/>
+											<ul class="select2-selection__rendered">
+								        		<% product_vehicle_models.each do | vm |%>
+								        			<li class="select2-selection__choice" title="#{vm.name}">
+								        				<strong>Make : </strong>
+								        				</i><%= VehicleMake.find_by_id(vm.vehicle_make_id).name%> </i> <strong><br/>Model: </strong> <i> <%=vm.name%> </i> 
+								        			</li>
+								        		<% end %>
+					        				</ul>
+					        				<br/>
+					        			</span>
+					        			
+					        		</span>
+					        		
+					        	</span>
+					        	
+				        	<% end %>
+				        
+				    </div>
+		     </div>
+		</div>
+	    
+	 </div>
+      
+      
       <div class="modal-footer">
+      	<a href="#" class="btn btn-primary">Buy</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>

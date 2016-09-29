@@ -1,6 +1,6 @@
 class VehicleModel < ActiveRecord::Base
   belongs_to :vehicle_make
-  belongs_to :products
+  belongs_to :product
   attr_reader :vehicle_make
   attr_writer :vehicle_make
   def self.search(query, page = 1)

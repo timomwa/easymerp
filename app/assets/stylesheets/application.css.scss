@@ -152,4 +152,29 @@ h1.hocheader{
       -webkit-border-bottom: 4px !important;
          -moz-border-bottom: 4px !important;
               border-bottom: 4px !important;
-    }
+}
+
+.imagediv{
+	overflow:hidden; 
+	position:relative; 
+	height: 100%;
+}
+
+.productsCarousel{
+	max-height: 400px;
+	overflow: scroll;
+}
+
+.mycenteredel1{
+  display: block;  
+  margin-right: auto;  
+  margin-left: auto; 
+  border: 1px solid red;
+}
+
+.mycenteredel2{
+  display: block;  
+  margin-right: auto;  
+  margin-left: auto; 
+  border: 1px solid green;
+}
