@@ -123,3 +123,33 @@ h1.hocheader{
 .p5{
 	padding: 5px
 }
+
+.top_left {
+    top:0;
+    right:0;
+    /*margin-left: 50%;*/
+    min-height: 25px;
+    padding: 2px;
+    /*width: 50%;*/
+    text-align: center;
+    position: absolute;
+    position:relative;
+    color: black;
+    opacity: 0.8;
+}
+
+.green-background{
+	background-color: #25E32A;
+}
+
+.round-corner{
+      -webkit-border-radius: 4px !important;
+         -moz-border-radius: 4px !important;
+              border-radius: 4px !important;
+      -webkit-border-top: 4px !important;
+         -moz-border-top: 4px !important;
+              border-top: 4px !important;
+      -webkit-border-bottom: 4px !important;
+         -moz-border-bottom: 4px !important;
+              border-bottom: 4px !important;
+    }

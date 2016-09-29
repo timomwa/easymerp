@@ -27,8 +27,6 @@ module ProductControllerHelper
 
   def getActivePricing(product)
 
-    product = Product.find(product.id)
-
     pricing = nil
 
     if(!product.product_pricings.nil?)
@@ -38,6 +36,15 @@ module ProductControllerHelper
       end
     end
     pricing
+  end
+
+  def findActiveProductPricing(product_id)
+    ProductPricing.findActivePricing(product_id)
+  end
+  
+  
+  def findActiveProductDiscount(product_id, discount_type)
+    ProductDiscount.findActiveDiscounts(product_id,discount_type);
   end
 
 end

@@ -6,4 +6,5 @@ class Image < ActiveRecord::Base
   def self.findDefaultImage(product_id)
     psttmt = where("product_id = ? and defaultimg = 1 ", product_id)
   end
+  
 end

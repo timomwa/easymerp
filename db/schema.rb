@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928145014) do
+ActiveRecord::Schema.define(version: 20160929105931) do
 
   create_table "account_balances", force: :cascade do |t|
     t.integer "account_id",           limit: 4
@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 20160928145014) do
     t.decimal  "amount",               precision: 35, scale: 5
   end
 
-  add_index "product_pricings", ["date_from", "date_to"], name: "dtrangeidx", unique: true, using: :btree
+  add_index "product_pricings", ["date_from", "date_to", "product_id"], name: "dtrangeidx", unique: true, using: :btree
   add_index "product_pricings", ["date_from"], name: "dtfrmidx", using: :btree
   add_index "product_pricings", ["date_to"], name: "dttoidx", using: :btree
   add_index "product_pricings", ["product_id"], name: "prodidx", using: :btree

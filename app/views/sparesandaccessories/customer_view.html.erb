@@ -8,8 +8,6 @@
 		<% remainder = counter%count_per_row
 		   new_row = remainder==0
 		   counter = counter+1
-		   pricing = getActivePricing(product)
-		   itemprice = pricing.nil? ? "Ask for price" : "Kes. "+number_with_precision(pricing.amount, :precision => 2, :delimiter => ',')
 		   
 		   avatar  = getProductDefaultAvatar(product)
 		   default_image_url = 'missing_image.png'
@@ -18,8 +16,29 @@
 		   	default_image_url = avatar.url
 		   	default_image_thumb_url = avatar.thumb.url
 		   end
+		   
+		   discount_type = ProductDiscount.discount_types['GENERAL_PUBLIC']
+		   
+		   if current_user 
+		   	discount_type = ProductDiscount.discount_types['MEMBERS_ONLY']
+		   end
+		   
+		   discount_applicable = findActiveProductDiscount(product.id,discount_type)
+		   
+		   pricing = findActiveProductPricing(product.id)
+		   
+		   if(!discount_applicable.nil? && !discount_applicable.percent.nil?)
+		    discountpercentage = discount_applicable.percent;
+		    percent_discount = 1 - (discountpercentage/100);
+		   	price_after_discount = (pricing.amount * percent_discount)
+		   	discount = number_with_precision((pricing.amount-price_after_discount), :precision => 2, :delimiter => ',')
+		   	price_display = "<small class='text-danger'><del>Kes. "+number_with_precision(pricing.amount, :precision => 2, :delimiter => ',')+"</small></del> <br/><small class='text-success'>Kes. "+number_with_precision(price_after_discount, :precision => 2, :delimiter => ',')+ "</small>"
+		   	itemprice = pricing.nil? ? "Ask for price<br/>" : price_display
+		   elsif
+		   	itemprice = "<small class='text-primary'>"+(pricing.nil? ? "Ask for price" : "Kes. "+number_with_precision(pricing.amount, :precision => 2, :delimiter => ','))+"</small><br/>&nbsp;"
+		   end
+		   
 		 %>  
-		 
 		 
 		<%  if(new_row || counter==0) %>
 		      <div class="row">
@@ -28,12 +47,17 @@
 			<div class="col-sm-3 col-xs-3" >
 				<div class="thumbnail">
 					<div class="thumb" style="overflow:hidden; position:relative; min-height: 50px; max-height: 150px;" >
-						<%= link_to image_tag(default_image_url, :class=> "img-responsive", :style => "vertical-align: middle;  float: none;", alt: 'product_image_coming_soon'), customer_view_path(:product_id => product.id),  { :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#myModal'}  %>
+						<% if discountpercentage%>
+							<div class="top_left green-background round-corner">
+								<bold style="opacity: 1 !important;"><%= discountpercentage %>% Discount<br/> Save Kes.<%= discount %></bold> </div>
+						<% end %>
+						<%= link_to image_tag(default_image_url, :class=> "img-responsive", :style => "margin-top: -20px; vertical-align: middle;  float: none;", alt: 'product_image_coming_soon'), customer_view_path(:product_id => product.id),  { :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#myModal'}%>
+						
                     </div>
                     <div class="caption">
                     	<h4><%= shortenStr(product.name,10) %></h4>
                     	
-                        <h4><%= itemprice %></h4>
+                        <h4><%= itemprice.html_safe %></h4>
                         <p><%= shortenStr(product.description,30) %></p>
                         <p>
                             <a href="#" class="btn btn-primary">Buy</a> 
