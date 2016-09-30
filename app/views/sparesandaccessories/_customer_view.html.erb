@@ -24,7 +24,7 @@
 		   product_vehicle_models = getProductVehicleModels(product.id)
 		   
 		    %>
-<div class="modal-dialog modal-sm modal-lg">
+<div class="modal-dialog modal-sm modal-md modal-lg">
 
     <!-- Modal content-->
     <div class="modal-content">
@@ -39,7 +39,7 @@
       
       	<div class="container">
 	      	 <div class="row">
-	      	   		<div class="col-xs-9 col-sm-4 col-md-9 col-lg-9">
+	      	   		<div class="col-xs-12 col-sm-4 col-md-9 col-lg-9">
 					    <div class="thumbnail">
 					    	<%= render 'carousel', discount: discount, discountpercentage: discountpercentage, product: product %>
 					    </div>
@@ -47,7 +47,7 @@
 			 </div>
 	        
 		     <div class="row">
-		        	<div class="col-xs-9 col-sm-4 col-md-9 col-lg-9">
+		        	<div class="col-xs-12 col-sm-4 col-md-9 col-lg-9">
 		        		<h2>Description</h2>
 				        <div class="thumbnail">
 				        	<%= product.description %>
