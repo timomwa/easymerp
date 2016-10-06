@@ -1,4 +1,5 @@
 class ProductPricingsController < ApplicationController
+  filter_resource_access
   def index
     @product_pricings = ProductPricing.paginate(:page => params[:page], :per_page => 10)
   end
@@ -37,10 +38,11 @@ class ProductPricingsController < ApplicationController
 
   def destroy
     @product_pricing = ProductPricing.find(params[:id])
+    product = Product.find(@product_pricing.product_id)
     if @product_pricing
       @product_pricing.destroy
     end
-    redirect_to product_pricings_url
+    redirect_to product
   end
 
   private

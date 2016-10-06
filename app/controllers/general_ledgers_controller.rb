@@ -1,4 +1,6 @@
 class GeneralLedgersController < ApplicationController
+  filter_resource_access
+  
   def index
     @general_ledgers = GeneralLedger.paginate(:page => params[:page], :per_page => 10)
   end

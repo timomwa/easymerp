@@ -1,4 +1,5 @@
 class ProductDiscountsController < ApplicationController
+  filter_resource_access
   def index
     @product_discounts = ProductDiscount.paginate(:page => params[:page], :per_page => 10)
   end
@@ -27,9 +28,11 @@ class ProductDiscountsController < ApplicationController
 
   def update
     @product_discount = ProductDiscount.find(params[:id])
-    if @product_discount.update_attributes(account_params)
+    product = Product.find(@product_discount.product_id)
+    @product_discount.active = !@product_discount.active
+    if @product_discount.save
       flash[:success] = "Product Discount successfully updated!"
-      redirect_to product_discounts_url
+      redirect_to product
     else
       render :edit
     end
@@ -37,10 +40,11 @@ class ProductDiscountsController < ApplicationController
 
   def destroy
     @product_discount = ProductDiscount.find(params[:id])
+    product = Product.find(@product_discount.product_id)
     if @product_discount
       @product_discount.destroy
     end
-    redirect_to product_discounts_url
+    redirect_to product
   end
 
   private

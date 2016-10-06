@@ -9,13 +9,13 @@
   	
   	<%= f.fields_for :product_pricings do |pp| %>
   		<p>
-  			<%= pp.number_field :amount,  class: "form-control", placeholder: "Initial Price"  %>
+  			<%= pp.number_field :amount,  class: "form-control", placeholder: "Price"  %>
   		</p>
   		<p>
   			<%= pp.text_field :date_from, class: "datepicker_to1 form-control", placeholder: "Price Active From", "data-date-format" => "yyyy-mm-dd 00:00:00"  %>
   		</p>
   		<p>
-  			<%= pp.text_field :date_to, class: "datepicker_to2 form-control", placeholder: "Till", "data-date-format" => "yyyy-mm-dd 23:59:59"  %>
+  			<%= pp.text_field :date_to, class: "datepicker_to2 form-control", placeholder: "Up To", "data-date-format" => "yyyy-mm-dd 23:59:59"  %>
   		</p>
   	<% end %>
   	
@@ -37,7 +37,7 @@
 		  			<td><%= pp.date_from.strftime("%Y %B %d") %></td>
 		  			<td><%= pp.date_to.strftime("%Y %B %d") %></td>
 		  			<% permitted_to? :manage, :products do %>
-		  			<td><%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, delete_pricing_url(:id => pp.id,:page => params[:page]), method: :delete,
+		  			<td><%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, pp, method: :delete,
 		      		data: { confirm: 'Are you sure you want to  delete the pricing \''+number_with_precision(pp.amount, :precision => 2, :delimiter => ',')+'\', for \''+@product.name+'\'?'} %></td>
 				     <% end %>
 				    <% end %>

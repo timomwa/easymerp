@@ -1,0 +1,51 @@
+<a href="#stickers" class="btn btn-info" data-toggle="collapse"><span class="glyphicon glyphicon-plus"></span>Your Stickers</a>
+<div  id="stickers"  class="collapse panel panel-primary hoctransparent p5">
+
+	<p>
+	  	<div class="panel-heading">Stickers</div>
+	</p>
+	
+	<%= f.fields_for :profile_sticker do |ps| %>
+		<p>
+  			<%= ps.text_field :number,  class: "form-control", placeholder: "Sticker Number"  %>
+  		</p>
+  		<p>
+  			<% 
+  			 allowed = false
+  			 permitted_to? :manage, :profile_stickers do 
+  			 	allowed = true
+  			 end %>
+  			<%= ps.select :sticker_status, ProfileSticker.sticker_statuses.map { |key, value| [key.humanize, key] }, {prompt: "Select Sticker Status"}, {class: "form-control", disabled: !allowed} %>
+		</p>
+  			  		
+	<% end %>
+	
+	
+	<table class="table">
+		  <tr>
+		    <th>Sticker #</th>
+		    <th>Status</th>
+		    <% permitted_to? :manage, :profile_stickers do %>
+		    	<th></th>
+		    <% end %>
+		  </tr>
+		  <tbody>
+	  		<% @member_profile.profile_stickers.each do |ps| %>
+		  		<% if(!ps.id.nil?) %>
+		  			<tr>
+			  			<td><%= ps.number %></td>
+			  			<td><%= ps.sticker_status %></td>
+			  			<% permitted_to? :manage, :profile_stickers do %>
+			  			    <td>
+			  			  	<%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, 
+			  			  	ps, method: :delete,
+			      			data: { confirm: "Are you sure you want to delete the sticker "+ps.number+" ?"} %>
+			      			</td>
+					     <% end %>
+				    </tr>
+		  		<% end %>
+	  		<% end %>
+	  		</tbody>
+	 </table>
+	
+</div>

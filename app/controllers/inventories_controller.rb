@@ -1,5 +1,5 @@
 class InventoriesController < ApplicationController
-  #filter_resource_access
+  filter_resource_access
   def index
     @inventories = Inventory.paginate(:page => params[:page], :per_page => 10)
   end

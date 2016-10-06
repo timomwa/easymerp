@@ -1,0 +1,4 @@
+<h1>Member Profile</h1>
+<% permitted_to? :manage, :member_profiles do %>
+	<%= render 'form' %>
+<% end %>

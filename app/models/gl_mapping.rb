@@ -1,2 +1,2 @@
-class GLMapping < ActiveRecord::Base
+class GlMapping < ActiveRecord::Base
 end

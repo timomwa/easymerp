@@ -1,23 +1,24 @@
 class GlMappingsController < ApplicationController
+  filter_resource_access
   def index
-    @gl_mappings = GLMapping.paginate(:page => params[:page], :per_page => 10)
+    @gl_mappings = GlMapping.paginate(:page => params[:page], :per_page => 10)
   end
 
   def show
-    @gl_mapping = GLMapping.find(params[:id])
+    @gl_mapping = GlMapping.find(params[:id])
   end
 
   def new
-    @gl_mapping = GLMapping.new
+    @gl_mapping = GlMapping.new
   end
 
   def edit
-    @gl_mapping = GLMapping.find(params[:id])
+    @gl_mapping = GlMapping.find(params[:id])
   end
 
   def create
-    @gl_mapping = GLMapping.new(gl_mapping_params)
-    
+    @gl_mapping = GlMapping.new(gl_mapping_params)
+
     if @gl_mapping.save
       flash[:info] = "Mapping has been created."
       redirect_to accountingpanel_url
@@ -27,7 +28,7 @@ class GlMappingsController < ApplicationController
   end
 
   def update
-    @gl_mapping = GLMapping.find(params[:id])
+    @gl_mapping = GlMapping.find(params[:id])
     if @gl_mapping.update_attributes(gl_mapping_params)
       flash[:success] = "Mapping successfully updated!"
       redirect_to accountingpanel_url
@@ -37,7 +38,7 @@ class GlMappingsController < ApplicationController
   end
 
   def destroy
-    @gl_mapping = GLMapping.find(params[:id])
+    @gl_mapping = GlMapping.find(params[:id])
     if @gl_mapping
       @gl_mapping.destroy
     end

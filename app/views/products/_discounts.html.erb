@@ -2,74 +2,73 @@
   	<a href="#discounts" class="btn btn-info" data-toggle="collapse"><span class="glyphicon glyphicon-plus"></span> Add Discounts to Product</a>
 	
 	<div  id="discounts"  class="collapse panel panel-primary hoctransparent p5">	
-	<p>
-  		<div class="panel-heading">Produduct Discounts</div>
-  	</p>
-  	<%= f.fields_for :product_discounts do |pp| %>
-  		<p>
-  			<%= pp.number_field :percent,  class: "form-control", placeholder: "% Discount"  %>
-  		</p>
-  		<p>
-  			<%= pp.text_field :date_from, class: "datepicker_to1 form-control", placeholder: "Discount starts", "data-date-format" => "yyyy-mm-dd 00:00:00"  %>
-  		</p>
-  		<p>
-  			<%= pp.text_field :date_to, class: "datepicker_to2 form-control", placeholder: "Discount ends", "data-date-format" => "yyyy-mm-dd 23:59:59"  %>
-  		</p>
-  		
-  		<p>
-	  		<div class="form-inline">
-		  		
-		  			<%= pp.select :discount_type, ProductDiscount.discount_types.map { |key, value| [key.humanize, key] }, {prompt: "Select Discount Type"}, {class: "form-control"} %>
-		  		
-		  		    <%= pp.label :active do %>
-		  				Active <%= pp.check_box :active, class: "form-control" %> 
-		  			<% end %>
-		  		
-	  		</div>
-  		</p>
-  		
-  	<% end %>
-  	
-  	
-  	<table class="table">
-	  <tr>
-	    <th>% Discount</th>
-	    <th>Condition</th>
-	    <th>Active from</th>
-	    <th>Active to</th>
-	    <th>Activated</th>
-	    <% permitted_to? :manage, :products do %>
-	    	<th></th>
-	    <% end %>
-	  </tr>
-	  <tbody>
-  		<% @product.product_discounts.each do |pp| %>
-	  		<% if(!pp.id.nil?) %>
-	  			<tr>
-		  			<td ><%= number_with_precision(pp.percent, :precision => 2, :delimiter => ',') %> % </td>
-		  			<td><%= pp.discount_type.humanize %></td>
-		  			<td><%= pp.date_from.strftime("%Y %B %d") %></td>
-		  			<td><%= pp.date_to.strftime("%Y %B %d") %></td>
-		  			<td><%= pp.active %></td>
-		  			<% permitted_to? :manage, :products do %>
-		  			    <% 
-		  			    	glyphicon_class = 'glyphicon-ban-circle'
-		  			    	buton_string = 'Disable'
-		  			    	if(!pp.active)
-		  			    		glyphicon_class = 'glyphicon-ok-circle'
-		  			    		buton_string = 'Enable'
-		  			    	end
-		  			    	
-		  			    %>
-		  			  	<td><%= link_to "<span class='glyphicon #{glyphicon_class}'> #{buton_string}</span>".html_safe, toggle_discount_active_url(:id => pp.id,:page => params[:page]), method: :patch,
-		      			data: { confirm: "Are you sure you want to #{buton_string} "+number_with_precision(pp.percent, :precision => 2, :delimiter => ',')+"% discount, for '"+@product.name+"' ?"} %>
-		      			| <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, delete_discount_url(:id => pp.id,:page => params[:page]), method: :delete,
-		      			data: { confirm: "Are you sure you want to  delete the discount "+number_with_precision(pp.percent, :precision => 2, :delimiter => ',')+", for "+@product.name+"'?"} %></td>
-				     <% end %>
-			    </tr>
+		<p>
+	  		<div class="panel-heading">Produduct Discounts</div>
+	  	</p>
+	  	<%= f.fields_for :product_discounts do |pp| %>
+	  		<p>
+	  			<%= pp.number_field :percent,  class: "form-control", placeholder: "% Discount"  %>
+	  		</p>
+	  		<p>
+	  			<%= pp.text_field :date_from, class: "datepicker_to1 form-control", placeholder: "Discount starts", "data-date-format" => "yyyy-mm-dd 00:00:00"  %>
+	  		</p>
+	  		<p>
+	  			<%= pp.text_field :date_to, class: "datepicker_to2 form-control", placeholder: "Discount ends", "data-date-format" => "yyyy-mm-dd 23:59:59"  %>
+	  		</p>
+	  		
+	  		<p>
+		  		<div class="form-inline">
+			  		
+			  			<%= pp.select :discount_type, ProductDiscount.discount_types.map { |key, value| [key.humanize, key] }, {prompt: "Select Discount Type"}, {class: "form-control"} %>
+			  		
+			  		    <%= pp.label :active do %>
+			  				Active <%= pp.check_box :active, class: "form-control" %> 
+			  			<% end %>
+			  		
+		  		</div>
+	  		</p>
+	  		
+	  	<% end %>
+  	  	
+	  	<table class="table">
+		  <tr>
+		    <th>% Discount</th>
+		    <th>Condition</th>
+		    <th>Active from</th>
+		    <th>Active to</th>
+		    <th>Activated</th>
+		    <% permitted_to? :manage, :products do %>
+		    	<th></th>
+		    <% end %>
+		  </tr>
+		  <tbody>
+	  		<% @product.product_discounts.each do |pp| %>
+		  		<% if(!pp.id.nil?) %>
+		  			<tr>
+			  			<td ><%= number_with_precision(pp.percent, :precision => 2, :delimiter => ',') %> % </td>
+			  			<td><%= pp.discount_type.humanize %></td>
+			  			<td><%= pp.date_from.strftime("%Y %B %d") %></td>
+			  			<td><%= pp.date_to.strftime("%Y %B %d") %></td>
+			  			<td><%= pp.active %></td>
+			  			<% permitted_to? :manage, :products do %>
+			  			    <% 
+			  			    	glyphicon_class = 'glyphicon-ban-circle'
+			  			    	buton_string = 'Disable'
+			  			    	if(!pp.active)
+			  			    		glyphicon_class = 'glyphicon-ok-circle'
+			  			    		buton_string = 'Enable'
+			  			    	end
+			  			    	
+			  			    %>
+			  			  	<td><%= link_to "<span class='glyphicon #{glyphicon_class}'> #{buton_string}</span>".html_safe,  product_discount_path(:id => pp.id), method: :patch,
+			      			data: { confirm: "Are you sure you want to #{buton_string} "+number_with_precision(pp.percent, :precision => 2, :delimiter => ',')+"% discount, for '"+@product.name+"' ?"} %>
+			      			| <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, pp, method: :delete,
+			      			data: { confirm: "Are you sure you want to delete the discount "+number_with_precision(pp.percent, :precision => 2, :delimiter => ',')+", for "+@product.name+"'?"} %></td>
+					     <% end %>
+				    </tr>
+		  		<% end %>
 	  		<% end %>
-  		<% end %>
-  		</tbody>
-  	</table>
+	  		</tbody>
+	  	</table>
   	
   	</div>

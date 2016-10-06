@@ -1,0 +1,62 @@
+<%= 
+	vehicleModel = VehicleModel.find(@profile_car.vehicle_model_id)
+	vahicleMake = VehicleMake.find(vehicleModel.vehicle_make_id)
+	title = (vehicleModel.year.to_s + " " + vahicleMake.name + " " + vehicleModel.name) + " Reg: " + @profile_car.regNo
+	
+%>
+<div class="modal-dialog modal-xs modal-sm modal-md modal-lg">
+<!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h1 class="modal-title"> <%= title %> </h1>
+      </div>
+      
+      
+      <div class="modal-body">
+      
+      	<div class="container">
+	      	 <div class="row">
+	      	   		<div class="col-xs-12 col-sm-4 col-md-11 col-lg-9">
+					    <div class="thumbnail">
+					    	<%= render 'carousel', profile_car: @profile_car %>
+					    </div>
+					</div>
+			 </div>
+	        
+		     <div class="row">
+		        	<div class="col-xs-12 col-sm-4 col-md-11 col-lg-9">
+		        		<h2>Details</h2>
+				        <div class="thumbnail">
+				        	<table class="table">
+				        	
+				        		<tr>
+		    						<th>Attribute</th>
+		    						<th>Value</th>
+		    					</tr>
+		    					
+		    					<tbody>
+		    						<tr> <td><strong>Year</strong></td> <td><%= vehicleModel.year.to_s %></td></tr>
+		    						<tr> <td><strong>Make</strong></td> <td><%= vahicleMake.name %></td></tr>
+		    						<tr> <td><strong>Model</strong></td> <td><%= vehicleModel.name %></td></tr>
+		    						<tr> <td><strong>Color</strong></td> <td><%= @profile_car.color %></td></tr>
+		    						<tr> <td><strong>Reg No.</strong></td> <td><%= @profile_car.regNo %></td></tr>
+		    						<tr> <td><strong>Pet name</strong></td> <td><%= @profile_car.petname %></td></tr>
+		    					</tbody>
+		    					
+				        	</table>
+				        </div>
+				        
+				    </div>
+		     </div>
+		</div>
+	    
+	 </div>
+      
+      
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>

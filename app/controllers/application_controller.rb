@@ -4,8 +4,14 @@ class ApplicationController < ActionController::Base
   helper :all
   protect_from_forgery with: :exception
   #before_filter { |c| Authorization.current_user = c.current_user }
-
+  before_filter :set_current_user
+  protected
+  def set_current_user
+    Authorization.current_user = current_user
+  end
+  
   private
+
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find
@@ -30,7 +36,7 @@ class ApplicationController < ActionController::Base
     flash[:error] = "Sorry, you not allowed to access that page."
     redirect_to root_url
   end
-  
+
   helper_method :current_user_session, :current_user
 
 end

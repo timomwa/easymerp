@@ -1,4 +1,5 @@
 class AccountingPeriodsController < ApplicationController
+  filter_resource_access
   def index
     @accounting_periods = AccountingPeriod.paginate(:page => params[:page], :per_page => 10)
   end

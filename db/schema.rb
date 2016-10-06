@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929105931) do
+ActiveRecord::Schema.define(version: 20161006150142) do
 
   create_table "account_balances", force: :cascade do |t|
     t.integer "account_id",           limit: 4
@@ -102,6 +102,13 @@ ActiveRecord::Schema.define(version: 20160929105931) do
   add_index "inventory_products", ["inventory_id"], name: "fk_rails_7637bc1835", using: :btree
   add_index "inventory_products", ["product_id"], name: "fk_rails_b27370d0a4", using: :btree
 
+  create_table "member_profiles", force: :cascade do |t|
+    t.integer "user_id", limit: 4,             null: false
+    t.integer "status",  limit: 2, default: 0, null: false
+  end
+
+  add_index "member_profiles", ["user_id"], name: "memprofus_fk", using: :btree
+
   create_table "product_discounts", force: :cascade do |t|
     t.integer  "product_id",    limit: 4,                                          null: false
     t.integer  "discount_type", limit: 2,                          default: 0,     null: false
@@ -148,6 +155,63 @@ ActiveRecord::Schema.define(version: 20160929105931) do
   add_index "products_vehicle_models", ["product_id"], name: "pvmprdidx", using: :btree
   add_index "products_vehicle_models", ["vehicle_model_id"], name: "pvmvmidx", using: :btree
 
+  create_table "profile_car_photos", force: :cascade do |t|
+    t.integer  "profile_car_id", limit: 4,                   null: false
+    t.string   "avatar",         limit: 255
+    t.boolean  "active"
+    t.boolean  "defaultimg",                 default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "profile_car_photos", ["active"], name: "profcaract_idx", using: :btree
+  add_index "profile_car_photos", ["defaultimg"], name: "defaultimg_idx", using: :btree
+  add_index "profile_car_photos", ["profile_car_id"], name: "mbrpro_idx", using: :btree
+
+  create_table "profile_cars", force: :cascade do |t|
+    t.integer "member_profile_id", limit: 4,   null: false
+    t.integer "vehicle_model_id",  limit: 4,   null: false
+    t.string  "color",             limit: 255
+    t.string  "regNo",             limit: 255
+    t.string  "petname",           limit: 255
+  end
+
+  add_index "profile_cars", ["member_profile_id"], name: "profcarpr_fk", using: :btree
+  add_index "profile_cars", ["vehicle_model_id"], name: "vmprofcarpr_fk", using: :btree
+
+  create_table "profile_contacts", force: :cascade do |t|
+    t.integer "member_profile_id", limit: 4,   null: false
+    t.string  "phone_no",          limit: 255
+    t.string  "email_address",     limit: 255
+    t.string  "postal_address",    limit: 255
+    t.string  "physical_address",  limit: 255
+  end
+
+  add_index "profile_contacts", ["member_profile_id"], name: "profcontpr_fk", using: :btree
+
+  create_table "profile_photos", force: :cascade do |t|
+    t.integer  "member_profile_id", limit: 4,                   null: false
+    t.string   "avatar",            limit: 255
+    t.boolean  "active"
+    t.boolean  "defaultimg",                    default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "profile_photos", ["active"], name: "propicactive_idx", using: :btree
+  add_index "profile_photos", ["defaultimg"], name: "propicdefaultimg_idx", using: :btree
+  add_index "profile_photos", ["member_profile_id", "active", "defaultimg"], name: "propicactv_idx", unique: true, using: :btree
+  add_index "profile_photos", ["member_profile_id"], name: "propicmemb_idx", using: :btree
+
+  create_table "profile_stickers", force: :cascade do |t|
+    t.integer "member_profile_id", limit: 4,               null: false
+    t.string  "number",            limit: 255
+    t.integer "sticker_status",    limit: 4,   default: 0, null: false
+  end
+
+  add_index "profile_stickers", ["member_profile_id"], name: "profstk_fk", using: :btree
+  add_index "profile_stickers", ["number"], name: "index_profile_stickers_on_number", using: :btree
+
   create_table "roles", force: :cascade do |t|
     t.string   "title",      limit: 255
     t.datetime "created_at",             null: false
@@ -169,33 +233,6 @@ ActiveRecord::Schema.define(version: 20160929105931) do
   end
 
   add_index "sequences", ["prefix", "suffix"], name: "index_sequences_on_prefix_and_suffix", unique: true, using: :btree
-
-  create_table "taggings", force: :cascade do |t|
-    t.integer  "tag_id",        limit: 4
-    t.integer  "taggable_id",   limit: 4
-    t.string   "taggable_type", limit: 255
-    t.integer  "tagger_id",     limit: 4
-    t.string   "tagger_type",   limit: 255
-    t.string   "context",       limit: 128
-    t.datetime "created_at"
-  end
-
-  add_index "taggings", ["context"], name: "index_taggings_on_context", using: :btree
-  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy", using: :btree
-  add_index "taggings", ["taggable_id"], name: "index_taggings_on_taggable_id", using: :btree
-  add_index "taggings", ["taggable_type"], name: "index_taggings_on_taggable_type", using: :btree
-  add_index "taggings", ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type", using: :btree
-  add_index "taggings", ["tagger_id"], name: "index_taggings_on_tagger_id", using: :btree
-
-  create_table "tags", force: :cascade do |t|
-    t.string  "name",           limit: 255
-    t.integer "taggings_count", limit: 4,   default: 0
-  end
-
-  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "transaction_types", force: :cascade do |t|
     t.string   "name",        limit: 255, null: false
@@ -258,9 +295,16 @@ ActiveRecord::Schema.define(version: 20160929105931) do
   add_foreign_key "images", "products"
   add_foreign_key "inventory_products", "inventories"
   add_foreign_key "inventory_products", "products"
+  add_foreign_key "member_profiles", "users", name: "memprofus_fk"
   add_foreign_key "product_discounts", "products"
   add_foreign_key "product_pricings", "products"
   add_foreign_key "products_vehicle_models", "products", name: "pvmprodidfk"
   add_foreign_key "products_vehicle_models", "vehicle_models", name: "pvmvmidfk"
+  add_foreign_key "profile_car_photos", "profile_cars", name: "profcarphot_fk"
+  add_foreign_key "profile_cars", "member_profiles", name: "profcarpr_fk"
+  add_foreign_key "profile_cars", "vehicle_models", name: "vmprofcarpr_fk"
+  add_foreign_key "profile_contacts", "member_profiles", name: "profcontpr_fk"
+  add_foreign_key "profile_photos", "member_profiles", name: "profimg_fk"
+  add_foreign_key "profile_stickers", "member_profiles", name: "profstk_fk"
   add_foreign_key "vehicle_models", "vehicle_makes"
 end

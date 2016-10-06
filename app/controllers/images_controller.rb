@@ -3,6 +3,9 @@ class ImagesController < ApplicationController
 
   # GET /post_attachments
   # GET /post_attachments.json
+
+  filter_resource_access
+  
   def index
     @images = Image.all
   end

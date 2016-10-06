@@ -2,6 +2,8 @@ authorization do
   role :guest do
     has_permission_on :user_sessions, :to => [:create , :destroy]
     has_permission_on :users, :to => [:create]
+    has_permission_on :pages, :to => :read
+    has_permission_on :sparesandaccessories, :to => :read    
   end
 
   # permissions on other roles, such as
@@ -12,8 +14,22 @@ authorization do
     has_permission_on :product_discounts, :to => :manage
     has_permission_on :images, :to => :manage
   end
+
+  role :user do
+    has_permission_on :products, :to => :read
+    has_permission_on :member_profiles, :to => :manage
+    has_permission_on :profile_cars, :to => :manage
+    has_permission_on :profile_contacts, :to => :manage
+    has_permission_on :profile_stickers, :to => :manage
+    has_permission_on :profile_photos, :to => :manage
+    has_permission_on :profile_car_photos, :to => :manage
+    has_permission_on :authorization_rules, :to => :read
+
+  end
+
   role :admin do
     includes :guest
+    includes :user
     includes :serviceprovider
     has_permission_on :products, :to => :manage
     has_permission_on :users, :to => :manage
@@ -26,11 +42,6 @@ authorization do
     has_permission_on :vehicle_models, :to => :manage
   end
 
-  role :user do
-    has_permission_on :products, :to => :read
-  end
-
- 
   # role :user do
   #   has_permission_on :conferences, :to => [:read, :create]
   #   has_permission_on :conferences, :to => [:update, :delete] do

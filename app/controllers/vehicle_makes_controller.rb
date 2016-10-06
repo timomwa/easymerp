@@ -1,4 +1,6 @@
 class VehicleMakesController < ApplicationController
+
+  filter_resource_access
   def index
     @vehicle_makes = VehicleMake.paginate(:page => params[:page], :per_page => 10)
   end

@@ -1,4 +1,7 @@
 class TransactionTypesController < ApplicationController
+
+  filter_resource_access
+  
   def index
     @transaction_types = TransactionType.paginate(:page => params[:page], :per_page => 10)
   end

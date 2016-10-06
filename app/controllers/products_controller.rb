@@ -4,6 +4,8 @@ class ProductsController < ApplicationController
   #include ActionController::ImplicitRender
   #before_action :all_products, only: [:index, :create]
   #respond_to :html,:js
+
+  filter_resource_access
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   def index

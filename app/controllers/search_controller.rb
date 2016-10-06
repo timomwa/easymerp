@@ -1,9 +1,12 @@
 class SearchController < ApplicationController
+
+  #filter_access_to
+  
   def index
   end
 
   def search
-    logger.info "\n\n\t params ----> \n\n"+params.to_s+"\n\n"
+    #logger.info "\n\n\t params ----> \n\n"+params.to_s+"\n\n"
     term = params[:term]
     type = params[:_type]
     q = params[:q]

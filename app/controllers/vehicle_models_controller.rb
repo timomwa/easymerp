@@ -1,4 +1,5 @@
 class VehicleModelsController < ApplicationController
+  filter_resource_access
   def index
     @vehicle_models = VehicleModel.paginate(:page => params[:page], :per_page => 10)
   end
@@ -70,7 +71,7 @@ class VehicleModelsController < ApplicationController
   private
 
   def populate_vehicle_make(vehicle_model)
-    vehicle_model.vehicle_make_id  = vehicle_model.vehicle_make.id
+    vehicle_model.vehicle_make_id  = vehicle_model.vehicle_make_id
     vehicle_model
   end
 end

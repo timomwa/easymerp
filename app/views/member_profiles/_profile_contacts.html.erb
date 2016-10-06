@@ -1,0 +1,57 @@
+<div  id="contacts"  class="panel panel-primary hoctransparent p5">
+
+	<p>
+	  	<div class="panel-heading">Contacts</div>
+	</p>
+	
+	<%= f.fields_for :profile_contacts do |mp| %>
+		<p>
+  			<%= mp.text_field :phone_no,  class: "form-control", placeholder: "Phone #"  %>
+  		</p>
+  		
+  		<p>
+  			<%= mp.text_field :email_address,  class: "form-control", placeholder: "Email Address"  %>
+  		</p>
+  		
+  		<p>
+  			<%= mp.text_field :postal_address,  class: "form-control", placeholder: "Postal Address"  %>
+  		</p>
+  		
+  		<p>
+		    <%= mp.text_area :physical_address,  class: "form-control", placeholder: "Physical Address"  %>
+		 </p>
+		 
+	<% end %>
+	
+	
+	<table class="table">
+		  <tr>
+		    <th>Phone #</th>
+		    <th>Email Address</th>
+		    <th>Postal Address</th>
+		    <th>Physical Address</th>
+		    <% permitted_to? :manage, :profile_contacts do %>
+		    	<th></th>
+		    <% end %>
+		  </tr>
+		  <tbody>
+	  		<% @member_profile.profile_contacts.each do |pc| %>
+		  		<% if(!pc.id.nil?) %>
+		  			<tr>
+			  			<td><%= pc.phone_no %></td>
+			  			<td><%= pc.email_address %></td>
+			  			<td><%= pc.postal_address %></td>
+			  			<td><%= pc.physical_address %></td>
+			  			<% permitted_to? :manage, :profile_contacts do %>
+			  			    <td>
+			  			  	<%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, 
+			  			  	pc, method: :delete,
+			      			data: { confirm: "Are you sure you want to delete the contact "+pc.phone_no+" ?"} %></td>
+					     <% end %>
+				    </tr>
+		  		<% end %>
+	  		<% end %>
+	  		</tbody>
+	 </table>
+	
+</div>

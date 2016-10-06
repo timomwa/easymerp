@@ -1,0 +1,19 @@
+<%= form_for @member_profile, :html => { :multipart => true } do |f| %>
+	
+	<%= render 'shared/errors', object: @member_profile %>
+	
+	<p>
+  		<%= render 'profile_contacts', f: f, member_profile: @member_profile  %>
+  	</p>
+  	
+  	<p>
+  		<%= render 'profile_cars', f: f, member_profile: @member_profile  %>
+  	</p>
+  	
+  	<p>
+  		<%= render 'profile_stickers', f: f, member_profile: @member_profile  %>
+  	</p>
+  	
+	<p><%= f.submit "Save", class: "btn btn-lg btn-primary btn-block btn-signin" %></p>
+	
+<% end %>

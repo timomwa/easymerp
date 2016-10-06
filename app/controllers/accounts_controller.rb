@@ -1,4 +1,5 @@
 class AccountsController < ApplicationController
+  filter_resource_access
   def index
     @accounts = Account.paginate(:page => params[:page], :per_page => 10)
   end

@@ -1,0 +1,154 @@
+<a href="#profcars" class="btn btn-info" data-toggle="collapse"><span class="glyphicon glyphicon-plus"></span>My Cars</a>
+<div  id="profcars"  class="collapse panel panel-primary hoctransparent p5">
+
+	<p>
+	  	<div class="panel-heading">Cars</div>
+	</p>
+	
+	<%= f.fields_for :profile_car do |pc| %>
+	
+		<p>
+			<%= pc.collection_select :vehicle_model_id, [] , :id,:text, {}, {style: "width: 100%",placeholder: "Search", :multiple => false,  autofocus: 'true', class: 'form-control vehiclemodelcls', id: 'vehicle_model', "data-tags" => "true"} %>
+		</p>
+		
+		<p>
+  			<%= pc.text_field :regNo,  class: "form-control", placeholder: "Registration"  %>
+  		</p>
+  		
+  		<p>
+  			<%= pc.text_field :color,  class: "form-control", placeholder: "Color"  %>
+  		</p>
+  		
+  		<p>
+  			<%= pc.text_field :petname,  class: "form-control", placeholder: "Pet Name"  %>
+  		</p>
+  		
+  		<p>
+		    <%= pc.file_field :avatar, name: "profile_car_photo[avatar][]", :multiple => true, class: "form-control", placeholder: "Vehicle's Photos"  %>
+		</p>
+		 
+	<% end %>
+	
+	
+	<table class="table">
+		  <tr>
+		    <th>Photos</th>
+		    <th>Vehicle</th>
+		    <th>Color</th>
+		    <th>Reg No.</th>
+		    <th>Petname</th>
+		    <% permitted_to? :manage, :profile_cars do %>
+		    	<th></th>
+		    <% end %>
+		  </tr>
+		  <tbody>
+	  		<% @member_profile.profile_cars.each do |pc| %>
+		  		<% if(!pc.id.nil?) %>
+		  			<tr>
+		  				<%
+		  					vehicleModel = VehicleModel.find(pc.vehicle_model_id)
+		  					vahicleMake = VehicleMake.find(vehicleModel.vehicle_make_id)
+		  					
+		  					avatar = pc.profile_car_photos[0].avatar
+		  					default_image_url = avatar.url
+		   					default_image_thumb_url = avatar.thumb.url
+		  				%>
+		  				<td><%= link_to image_tag(default_image_thumb_url, :class=> "img-responsive", :style => "width: 30px; vertical-align: middle;  float: none;", alt: 'product_image_coming_soon'),  pc,  { :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#carmodal'} %></td>
+			  			<td><%= (vehicleModel.year.to_s + ", " + vahicleMake.name + " " + vehicleModel.name)  %></td>
+			  			<td><%= pc.color %></td>
+			  			<td><%= pc.regNo %></td>
+			  			<td><%= pc.petname %></td>
+			  			<% permitted_to? :manage, :profile_cars do %>
+			  			    <td>
+			  			  	<%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, 
+			  			  	pc, method: :delete,
+			      			data: { confirm: "Are you sure you want to delete the car \' "+pc.regNo+"\' ?"} %></td>
+					     <% end %>
+				    </tr>
+		  		<% end %>
+	  		<% end %>
+	  		</tbody>
+	 </table>
+	
+</div>
+
+<!-- Modal -->
+<div id="carmodal" class="modal fade" role="dialog"></div>
+
+
+<script type="text/javascript">
+var product_id;
+var x = $( '.vehiclemodelcls' ).select2({
+    	theme: "bootstrap",
+    	placeholder: 'Type to Search Vehicle Model...',
+  		allowClear: false,
+    	tags: true,
+    	vehicle_model_id: [],
+    	multiple: false,
+    	initSelection: function(element, callback) {
+    		//console.log("we've called init!");
+    		$.ajax({
+    			url: '/search/vehicle_model?product_id='+product_id, 
+		        dataType: 'json', 
+    			data: function (params) {
+			      return {
+			        product_id: product_id
+			      };
+			    }/*,
+			    cache: false,
+	    		escapeMarkup: function (markup) { 
+	    			return markup; 
+	    		}*/
+			}).done(function(data) { 
+					$.each(data, function(idx, val) {
+					
+				        data[idx].text = val.name;
+				        $('#vehicle_model').append(
+				        	$('<option>', { 
+					        	value: val.id,
+					        	text : val.text 
+					    	})
+					    );
+				        $('select#vehicle_model option[value='+val.id+']').attr('selected','selected');
+				        
+				        //$(".select2-selection__choice__remove").click(function (e) { alert('hi'); }); 
+				    });
+		            callback(data);
+		      });
+    		//callback({"id": 5, "text":"myValue"});
+    	}, 
+    	ajax: {
+			url: '/search/vehicle_model',
+			delay: 250,
+			data: function (params) {
+		      return {
+		        q: params.term, // search term
+		        page: params.page
+		      };
+		    },
+			processResults: function (data, params) {
+				params.page = params.page || 1;
+			    data = JSON.parse(data);
+			    $.each(data, function(idx, val) {
+			        data[idx].text = val.name;
+			    });
+			    return {
+			        results: data,
+			        pagination: {
+			          more: (params.page * 30) < data.total_count
+			        }
+				}
+			}
+		},	
+    	createSearchChoice: function (term, data){
+    		console.log(data);
+    		console.log(term);
+    	},
+    	insertTag: function (data, tag) {
+	    	// Insert the tag at the end of the results
+	    	//data.push(tag);
+	  	}
+});
+
+
+</script>

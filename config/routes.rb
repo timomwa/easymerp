@@ -18,11 +18,19 @@ Rails.application.routes.draw do
   resources :product_discounts, only: [:index, :new, :create, :update, :show, :destroy]
   resources :product_pricings, only: [:index, :new, :create, :update, :show, :destroy]
 
+  resources :member_profiles, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :profile_cars, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :profile_contacts, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :profile_stickers, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :profile_photos, only: [:index, :new, :create, :update, :show, :destroy]
+  resources :profile_car_photos, only: [:index, :new, :create, :update, :show, :destroy]
+    
   resources :sequences, only: [:index, :new, :create, :update, :show, :destroy]
   resources :general_ledgers, only: [:index, :new, :create, :update, :show, :destroy]
   resources :inventories, only: [:index, :new, :create, :update, :show, :destroy]
   resources :user_sessions, only: [:create, :destroy]
   resources :password_resets, only: [:new, :create, :edit, :update]
+  resources :sparesandaccessories, only: [:index, :new, :create, :update, :show, :destroy]
 
   delete '/sign_out', to: 'user_sessions#destroy', as: :sign_out
   get '/sign_in', to: 'user_sessions#new', as: :sign_in
@@ -40,6 +48,11 @@ Rails.application.routes.draw do
   delete '/delete_pricing/:id', to: 'products#delete_pricing', as: :delete_pricing
   patch '/toggle_discount_active/:id', to: 'products#toggle_discount_active', as: :toggle_discount_active
   delete '/delete_discount/:id', to: 'products#delete_discount', as: :delete_discount
+  delete '/delete_contact/:id', to: 'member_profiles#delete_contact', as: :delete_contact
+  delete '/delete_profile_car/:id', to: 'member_profiles#delete_profile_car', as: :delete_profile_car
+  delete 'delete_sticker/:id', to: 'member_profiles#delete_sticker', as: :delete_sticker
+  get '/profile_car_view', to: 'member_profiles#profile_car_view', as: :profile_car_view
+  
   #get '/admin/deactivateuser', to: 'administration#deactivateuser', as: :deactivateuser
   #get '/new_product', to: 'products#new', as: :new_product
   # The priority is based upon order of creation: first created -> highest priority.

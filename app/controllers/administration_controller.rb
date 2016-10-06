@@ -1,5 +1,6 @@
 class AdministrationController < ApplicationController
   #filter_resource_access
+  #filter_access_to :except => :index
   def index
   end
 
